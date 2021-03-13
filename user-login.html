@@ -38,7 +38,7 @@
 
         <section class="login-form">
             <div class="form-cont">
-                <form action="login.php" method="POST">
+                <form id="login_form" action="login.php" method="POST">
                     <label for="email">Email</label>
                     <input type="text" id="email" name="email" placeholder="Email Address">
 
@@ -49,7 +49,9 @@
                             <a href="register.php">Register Saya?</a>
                         </div>
                         <div class="col">
+                            <div class="g-recaptcha" data-sitekey="6LffzX0aAAAAAITFZ_UTkNFcyL530MlNOroiUGEB"></div>
                             <input type="submit" value="LOGIN">
+
                         </div>
                     </div>
                 </form>
@@ -57,6 +59,11 @@
             </div>
         </section>
 
-        <script src="" async defer></script>
+        <script src="https://www.google.com/recaptcha/api.js"></script>
+        <script>
+            function onSubmit(token) {
+              document.getElementById("login_form").submit();
+            }
+          </script>
     </body>
 </html>

@@ -51,8 +51,9 @@
         <section class="admin-text">
             <h1 class="regist">THANK YOU <?php echo $username ?> FOR REGISTER</h1>
             <p style="font-weight: lighter; font-size: 20px; text-align: left; width:700px;">Please check your email withing 5 - 10 minutes to receive an email from us.
-                If you have any problem please email us on MBS@email.com</p>
+                If you have any problem please email us on MBS@email.com<br><a href="user-login.html">Login</a></p>
         </section>
+        
 
         
 
