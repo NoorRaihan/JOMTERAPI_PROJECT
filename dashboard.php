@@ -21,20 +21,14 @@
         <link rel="stylesheet" href="dash.css">
     </head>
     <body>
-       <?php include'adminhead.php' ?>
+       <?php 
+            include'adminhead.php';
+            include'validaterole.php';
 
-        <!-- <center><h1><b>Welcome back, Admin</b></h1></center> -->
-    <section class="menu">
+            if($role == 1) { ?>
+
+<section class="menu">
         <div class="menu-inner row row-cols-md-3">
-            <div class="col">
-                <div id="booking_" class="card text-white mb-3" style="max-width: 18rem;">
-                    <div class="card-body card-counter info">
-                        <span class="count-numbers"><b>TODAY</b></span>
-                        <span class="count-name">Booking Reminder</span>
-                        <i class="fas fa-bookmark"></i>
-                    </div>
-                </div>
-            </div>
             <div class="col">
                 <div id="clients_" class="card text-white mb-3" style="max-width: 18rem;">
                     <div class="card-body card-counter primary">
@@ -59,6 +53,41 @@
                         <span class="count-numbers"><b>20</b><span style="font-size: 20px;"> people</span></span>
                         <span class="count-name">Registered Client</span>
                         <i class="fas fa-user-friends"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div id="history_" class="card text-white mb-3" style="max-width: 18rem;">
+                    <div class="card-body card-counter primary">
+                        <span class="count-numbers"><b>BOOKED</b></span>
+                        <span class="count-name">Booking History</span>
+                        <i class="fas fa-history"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div id="admin_" class="card text-white mb-3" style="max-width: 18rem;">
+                    <div class="card-body card-counter success">
+                        <span class="count-numbers"><b>USER</b></span>
+                        <span class="count-name">Account</span>
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                </div>
+            </div>
+            
+        </div>   
+    </section><?php
+
+            } else { ?>
+
+                <section class="menu">
+        <div class="menu-inner row row-cols-md-3">
+            <div class="col">
+                <div id="booking_" class="card text-white mb-3" style="max-width: 18rem;">
+                    <div class="card-body card-counter info">
+                        <span class="count-numbers"><b>TODAY</b></span>
+                        <span class="count-name">Booking Reminder</span>
+                        <i class="fas fa-bookmark"></i>
                     </div>
                 </div>
             </div>
@@ -91,9 +120,12 @@
             </div>
             
         </div>   
-    </section>
+    </section> <?php
 
-    
+            }
+
+       ?>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>

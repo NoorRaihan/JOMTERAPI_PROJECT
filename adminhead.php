@@ -1,3 +1,9 @@
+<?php
+    include'validaterole.php';
+    $username = strtoupper($_SESSION['username']);
+?>
+
+
 <header>
             <section class="navbar">
                 <i id="home" class="fas home fa-home"></i>
@@ -16,19 +22,33 @@
                     <div class="username-name col">
                         <div class="">
                             <h7>WELCOME</h7><br>
-                            <b><h7>ADMINISTRATOR</h7></b>
+                            <b><h7><?php echo $username; ?></h7></b>
                         </div>
                     </div>
                     <div class="listing">
                         <ul class="list-inner">
-                            <li><a href="dashboard.php">Dashboard</a></li>
-                            <li><a href="booking.php">Bookings</a></li>
-                            <li><a href="client.php">Clients</a></li>
-                            <li><a href="calendar.php">Calendar</a></li>
-                            <li><a href="regisclient.php">Registered Clients</a></li>
-                            <li><a href="userbook.php">Create Booking</a></li>
-                            <li><a href="history.php">History</a></li>
-                            <li><a href="usersettings.php">Account</a></li>
+
+                        <?php
+                            if($role == 1) { ?>
+                                <li><a href="dashboard.php">Dashboard</a></li>
+                                <li><a href="client.php">Clients</a></li>
+                                <li><a href="calendar.php">Calendar</a></li>
+                                <li><a href="regisclient.php">Registered Clients</a></li>
+                                <li><a href="history.php">History</a></li>
+                                <li><a href="usersettings.php">Account</a></li> 
+                            <?php
+                            } else { ?>
+
+                                <li><a href="dashboard.php">Dashboard</a></li>
+                                <li><a href="booking.php">Bookings</a></li>
+                                <li><a href="userbook.php">Create Booking</a></li>
+                                <li><a href="history.php">History</a></li>
+                                <li><a href="usersettings.php">Account</a></li>
+
+                            <?php
+                            }
+                        
+                        ?>
                             
                         </ul>
                     </div>
@@ -39,13 +59,6 @@
         </header>
 
         <script>
-
-        
-
-        
-
-        
-       
     </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
