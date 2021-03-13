@@ -1,0 +1,62 @@
+html {
+    overflow: hidden;
+}
+
+.shape1 {
+    position: absolute;
+    background-color: #439494;
+    width:40%;
+    height:200%;
+}
+
+.admin-text {
+    float:right;
+    color: #707070;
+    font-weight: bolder;
+    margin-top: 10%;
+    margin-right: 310px;
+    width: 300px;
+}
+
+.login-form {
+    width: 27%;
+    position: absolute;
+    margin-top: 20%;
+    right:50%;
+    left:54%;
+
+}
+
+.form-cont {
+    color: #6200EE;
+    text-align: left;
+    padding: 20px;
+}
+
+#username, #password {
+    border:1px solid #00ADEE;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+input  {
+    padding: 8px;
+    width: 100%;
+}
+
+input[type=submit] {
+    margin: 8px 0;
+    border:none;
+    padding-top:3px;
+    padding-bottom: 3px;
+    float:right;
+    margin-top: 50px;
+    font-weight: bold;
+    width:100px;
+    box-shadow: 3px 4px 10px #007B93;
+}
+
+#regis-link{
+    margin-top: 20px;
+    padding-top: 10px;
+}

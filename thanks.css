@@ -1,0 +1,69 @@
+html {
+    overflow: hidden;
+}
+
+.shape1 {
+    position: absolute;
+    background-color: #439494;
+    width:40%;
+    height:200%;
+}
+.regist{
+    font-size: 50px;
+    font-weight: bold;
+}
+.admin-text {
+    float:right;
+    color: #707070;
+    font-weight: bolder;
+    font-size: 100px;
+    margin-top: 18%;
+    text-align: left;
+    width: 800px;
+}
+
+.login-form {
+    width: 100%;
+    position: absolute;
+    margin-top: 6%;
+    right:50%;
+    left:54%;
+
+}
+
+.form-cont {
+    color: #6200EE;
+    text-align: left;
+    padding: 20px;
+}
+
+#username, #password {
+    border-radius: 5px;
+    font-size: 15px;
+}
+input[type=radio] {
+    width:2%;
+}
+
+input  {
+    padding: 8px;
+    width: 20%;
+    border:1px solid #00ADEE;
+}
+
+input[type=submit] {
+    
+    margin: 8px 0;
+    border:none;
+    padding-top:3px;
+    padding-bottom: 3px;
+
+    margin-top: 10px;
+    font-weight: bold;
+    width:40;
+    box-shadow: 3px 4px 10px #007B93;
+}
+
+#regis-link{
+    margin-top: 20px;
+}

@@ -1,0 +1,54 @@
+body {
+    background-image: url(/images/bg1.jpg);
+    background-size: cover;
+    overflow: hidden;
+}
+
+.layer{
+    background-color: #3ACAC6;
+    height:100%;
+    opacity: .5;
+
+}
+
+.navbar {
+    background-color: #3ACAC6;
+    width:100%;
+    height:8%;
+}
+
+.buttons {
+    margin: auto;
+    width: 100%;
+    text-align: -webkit-center;
+     
+    /* margin-left: 41%; */
+}
+
+.btn-wrap {
+    /* display: flex; */
+}
+
+.but {
+    width: 300px;
+}
+
+.btn {
+    font-weight: bold;
+}
+
+.but1, .but2 {
+    border-radius: 20px;
+    font-weight: bold;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.logo{
+    margin-top: 70px; 
+    margin-left: 1%;
+}
+.logo-cont {
+    margin-top:50px;
+    width: 150px;
+    height:auto;
+}

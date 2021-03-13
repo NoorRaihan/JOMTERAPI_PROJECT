@@ -1,0 +1,45 @@
+body {
+    overflow-x: hidden;
+}
+
+
+.table-inner {
+  text-align: center;
+  margin-left: 30px;
+
+}
+
+.table_client {
+  padding-top: 3%;
+  padding:1px;
+  padding-left: 250px;
+  padding-right: 40px;
+
+}
+
+.listings {
+  margin-left:10px;
+}
+.listlist {
+  margin-bottom: 5px;
+}
+.lefty{
+  margin-top: 20px;
+  margin-left:22%;
+}
+.home {
+  position: absolute;
+  right: 0;
+  font-size: 30px;
+  padding-right: 15px;
+  z-index: 10;
+  cursor: pointer;
+}
+input[type=submit] {
+  color:white;
+  background-color: #3ACAC6;
+  font-weight:bold;
+  border-radius: 80px;
+
+}
+
