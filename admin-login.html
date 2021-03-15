@@ -9,7 +9,7 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+    
     </head>
     <body>
 
@@ -24,18 +24,18 @@
 
         <section class="login-form">
             <div class="form-cont">
-                <form action="dashboard.php">
+                <form action="admin.php" method="POST">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Username">
+                    <input type="text" id="username" name="username" placeholder="Username" required>
 
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Password">
+                    <input type="password" id="password" name="password" placeholder="Password" required>
 
                     <input type="submit" value="LOGIN"> 
                 </form>
             </div>
         </section>
 
-        <script src="" async defer></script>
+        
     </body>
 </html>

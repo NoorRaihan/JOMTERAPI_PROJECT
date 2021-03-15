@@ -22,7 +22,13 @@
                     <div class="username-name col">
                         <div class="">
                             <h7>WELCOME</h7><br>
-                            <b><h7><?php echo $username; ?></h7></b>
+                            <?php
+                            if($role == 1) { ?>
+                            <b><h7><?php echo $username,"(ADMIN)"; ?></h7></b>
+                            <?php
+                            } else { ?>
+                                <b><h7><?php echo $username; ?></h7></b> <?php
+                            } ?>
                         </div>
                     </div>
                     <div class="listing">

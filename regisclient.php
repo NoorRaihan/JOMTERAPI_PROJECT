@@ -1,16 +1,17 @@
-<?php 
+<?php
   include'authorized.php';
-  $data = array(
-    array("MUHAMAD", "SAJAT", 'M', "0128829846", "MUHD_001", "sajat001@gmail.com"),
-    array("HAIKAL", "HAKIMI", 'M', "0128829846", "Kimi56", "hkimi23@gmail.com"),
-    array("MUHAMAD", "DANISH", 'M', "0128829846", "Danish8", "danish99@gmail.com"),
-    array("NUR", "AIN", 'F', "0128829846", "ainA0", "ainnur1@gmail.com"),
-    array("RAMESH", "RAMJAN", 'M', "0128829846", "rameshJ2", "rameshrmjn2@gmail.com"),
-    array("AHMAD", "ABU", 'M', "0128829846", "aBU98", "abuahmad@gmail.com")
-  );
+  require_once('config.php');
+
+  $sql_user = "SELECT members.firstname, members.lastname, members.sex, members.phone, users.username, users.email 
+  FROM members 
+  INNER JOIN users ON members.u_id = users.id 
+  WHERE users.roles <> 1";
+
+  $query = $conn->query($sql_user);
+  var_dump($query);
 
 
-
+  
 ?>
 
 
@@ -63,8 +64,9 @@
             <tbody>
               <tr>
               <?php 
-                for ($i=0; $i < 5; $i++) {
-                  echo "<tr><th scope='row'>".($i+1)."</th><td>".$data[$i][0]."</td><td>".$data[$i][1]."</td><td>".$data[$i][2]."</td><td>".$data[$i][3]."</td><td>".$data[$i][4]."</td><td>*********</td><td>".$data[$i][5]."</td><td><span style='color:red;'  >DELETE</span></td></tr>";
+                while($ss = $query->fetch_assoc()) {
+                  $row[] = $ss['firstname'];
+                  echo "<tr><th scope='row'>".(1)."</th><td>".$row['members.firstname']."</td><td>".$row['members.lastname']."</td><td>".$row['members.sex']."</td><td>".$row['members.phone']."</td><td>".$row['users.username']."</td><td>*********</td><td>".$row['users.email']."</td><td><span style='color:red;'  >DELETE</span></td></tr>";
                 }
               
               
