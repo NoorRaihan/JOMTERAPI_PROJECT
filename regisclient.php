@@ -7,9 +7,7 @@
   INNER JOIN users ON members.u_id = users.id 
   WHERE users.roles <> 1";
 
-  $query = $conn->query($sql_user);
-  var_dump($query);
-
+  $GET_DATA = $conn->query($sql_user);
 
   
 ?>
@@ -30,8 +28,8 @@
         <link rel="stylesheet" href="dash.css">
     </head>
     <body>
-      <?php include'adminhead.php';?>
-
+      
+    <?php include'adminhead.php'; ?>
     <section class="menu">
         <div class="menu-inner row row-cols-md-4">
             <div class="col">
@@ -63,11 +61,15 @@
             </thead>
             <tbody>
               <tr>
-              <?php 
-                while($ss = $query->fetch_assoc()) {
-                  $row[] = $ss['firstname'];
-                  echo "<tr><th scope='row'>".(1)."</th><td>".$row['members.firstname']."</td><td>".$row['members.lastname']."</td><td>".$row['members.sex']."</td><td>".$row['members.phone']."</td><td>".$row['users.username']."</td><td>*********</td><td>".$row['users.email']."</td><td><span style='color:red;'  >DELETE</span></td></tr>";
+              <?php
+                $COUNT = 0; 
+                while($row = $GET_DATA->fetch_assoc()) {
+                  
+                  echo "<tr><th scope='row'>".($COUNT+1)."</th><td>".$row["firstname"]."</td><td>".$row["lastname"]."</td><td>".$row["sex"]."</td><td>".$row["phone"]."</td><td>".$row["username"]."</td><td>*********</td><td>".$row["email"]."</td><td><span style='color:red;'  >DELETE</span></td></tr>";
+                  $COUNT++;
                 }
+                  
+                
               
               
               ?>
