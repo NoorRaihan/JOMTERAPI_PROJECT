@@ -27,7 +27,7 @@
     $get = $conn->query($get_id);
     $result1 = $get->fetch_assoc();
     $id_res = $result1['id'];
-    $member = "INSERT INTO members(firstname,lastname,sex,phone,u_id,roles) VALUES('$fname','$lname','$gender','$pnumber','$id_res',0)";
+    $member = "INSERT INTO members(firstname,lastname,sex,phone,u_id) VALUES('$fname','$lname','$gender','$pnumber','$id_res')";
     $send2 = $conn->query($member);
 ?>
 

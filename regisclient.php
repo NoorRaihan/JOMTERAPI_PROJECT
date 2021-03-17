@@ -2,14 +2,16 @@
   include'authorized.php';
   require_once('config.php');
 
-  $sql_user = "SELECT members.firstname, members.lastname, members.sex, members.phone, users.username, users.email 
+  $delete = $_POST['delete']??
+
+  
+  $sql_user = "SELECT members.firstname, members.lastname, members.sex, members.phone, members.u_id,users.username, users.email 
   FROM members 
   INNER JOIN users ON members.u_id = users.id 
   WHERE users.roles <> 1";
 
   $GET_DATA = $conn->query($sql_user);
-
-  
+  $COUNT_MEM = $GET_DATA->num_rows;
 ?>
 
 
@@ -35,7 +37,7 @@
             <div class="col">
                 <div class="card text-white mb-3" style="max-width: 18rem;">
                     <div class="card-body card-counter primary">
-                        <span class="count-numbers"><b>5</b><span style="font-size: 20px;">  people</span></span>
+                        <span class="count-numbers"><b><?php echo $COUNT_MEM ?></b><span style="font-size: 20px;">  people</span></span>
                         <span class="count-name">Registered Client</span>
                         <i class="fas fa-user-friends"></i>
                     </div>
@@ -63,15 +65,25 @@
               <tr>
               <?php
                 $COUNT = 0; 
+                
+                if($COUNT_MEM == 0){
+                  echo "<tr><td colspan='9'>0 result</td></tr>";
+                }
+
                 while($row = $GET_DATA->fetch_assoc()) {
                   
-                  echo "<tr><th scope='row'>".($COUNT+1)."</th><td>".$row["firstname"]."</td><td>".$row["lastname"]."</td><td>".$row["sex"]."</td><td>".$row["phone"]."</td><td>".$row["username"]."</td><td>*********</td><td>".$row["email"]."</td><td><span style='color:red;'  >DELETE</span></td></tr>";
+                  echo "<tr><th scope='row'>".($COUNT+1)."</th>
+                  <td>".$row["firstname"]."</td>
+                  <td>".$row["lastname"]."</td>
+                  <td>".$row["sex"]."</td>
+                  <td>".$row["phone"]."</td>
+                  <td>".$row["username"]."</td>
+                  <td>*********</td>
+                  <td>".$row["email"]."</td>
+                  <td><form action='delete.php' method='POST'><button type='submit' name='delete' id='delete' value='".$row['u_id']."'>DELETE</button></form></td></tr>";
                   $COUNT++;
                 }
-                  
-                
-              
-              
+
               ?>
               </tr>
             </tbody>
@@ -88,6 +100,7 @@
             window.open('dashboard.php', "_self"); 
         });
         
+});
     </script>
     </body>
 </html>

@@ -1,6 +1,17 @@
-<?php 
+<?php
+    require_once('config.php'); 
     include'authorized.php';
     $date = date("d M");
+    
+   //still trying to get it into fucntional
+   
+    $sql = "SELECT members.firstname, members.lastname, members.sex, members.phone, members.u_id,users.username, users.email 
+    FROM members 
+    INNER JOIN users ON members.u_id = users.id 
+    WHERE users.roles <> 1";
+
+    $count = $conn->query($sql);
+    $res = $count->num_rows;
 
 ?>
 
@@ -50,7 +61,7 @@
             <div class="col">
                 <div id="regisclient_" class="card text-white mb-3" style="max-width: 18rem;">
                     <div class="card-body card-counter primary">
-                        <span class="count-numbers"><b>20</b><span style="font-size: 20px;"> people</span></span>
+                        <span class="count-numbers"><b><?php echo $res; ?></b><span style="font-size: 20px;"> people</span></span>
                         <span class="count-name">Registered Client</span>
                         <i class="fas fa-user-friends"></i>
                     </div>

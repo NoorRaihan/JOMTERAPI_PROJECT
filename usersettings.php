@@ -1,22 +1,47 @@
 <?php
-
     include'authorized.php';
-    $name = "NOOR RAIHAN";
-
+    require_once('config.php');
+    include'validaterole.php';
+    
     if(!isset($_POST['submit'])) {
 
         $fname = $lname = $gender = $email = $pnumber = $username = "";
     }else {
 
-        $fname = $_POST['fname'];
-        $lname = $_POST['lname'];
-        $gender = $_POST['gender'];
-        $email = $_POST['email'];
-        $pnumber = $_POST['p-num'];
-        $username = $_POST['username'];
+        $fname = $conn->real_escape_string($_POST['fname']);
+        $lname = $conn->real_escape_string($_POST['lname']);
+        $gender = $conn->real_escape_string($_POST['gender']);
+        $email = $conn->real_escape_string($_POST['email']);
+        $pnumber = $conn->real_escape_string($_POST['p-num']);
+        $username = $conn->real_escape_string($_POST['username']);
+        $password = $conn->real_escape_string($_POST['pass']);
 
+        $options = [
+            'memory_cost' => 2048,
+            'time_cost' => 4
+        ];
+        $TIMESTAMP = date('Y-m-d H:i:s');
+        $hash = password_hash($password, PASSWORD_ARGON2I,$options);
+    
+        $UPDATE_USERS_TABLE = "UPDATE users SET username = '$username', passwords = '$hash', email = '$email', updated_at = '$TIMESTAMP', updated_by = '$session_user'";
+        $UPDATE_MEMBERS_TABLE = "UPDATE members SET firstname = '$fname', lastname = '$lname', sex = $gender, phone = '$pnumber'";
+    
+        $UPDATE_USERS = $conn->query($UPDATE_USERS_TABLE);
+        $UPDATE_MEMBERS = $conn->query($UPDATE_MEMBERS_TABLE);
+    
+        if($UPDATE_USERS === TRUE && $UPDATE_MEMBERS === TRUE) { ?>
+            <script>
+                alert("Data successfully updated!")
+            </script><?php
+        } else { ?>
+            <script>
+                alert("Data can't be updated!")
+            </script><?php
+        }
+    
     }
 ?>
+    
 
 <!DOCTYPE html>
 
@@ -39,7 +64,7 @@
                 <img src="images/pp.jpg" class="ppu rounded-circle">
             </div>
             <div class="col acc-names">
-                <h1 style="font-size: 50px;"><b><?php echo $name; ?></b></h1>
+                <h1 style="font-size: 50px;"><b><?php echo strtoupper($_SESSION['username']); ?></b></h1>
                 <p>ACCOUNT'S LEVEL: USER</p>
             </div>
         </section>
@@ -55,7 +80,7 @@
 
                         <div class="col uname">
                             <label for="username">Username</label>
-                            <input type="text" name="username" id="username" value="<?php echo $username; ?>"><br>
+                            <input type="text" name="username" id="username" value="<?php echo $_SESSION['username']; ?>"><br>
                         </div>
                         
                     </div>
@@ -72,8 +97,8 @@
                         <div class="col">
                             <label for="gender">Gender</label>
                             <select name="gender" id="gender">
-                                <option value="M"  >Male</option>
-                                <option value="F">Female</option>
+                                <option value="1"  >Male</option>
+                                <option value="2">Female</option>
                             </select><br>
                         </div>
                         <div class="col"></div>
