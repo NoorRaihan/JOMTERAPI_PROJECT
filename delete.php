@@ -4,7 +4,7 @@
 
     $user = $_POST['delete'];
 
-    $sql = "DELETE FROM members WHERE u_id IN (SELECT id FROM users WHERE id = $user)";
+    $sql = "DELETE FROM members WHERE u_id IN (SELECT id FROM users WHERE id = $user)"; 
     $sql2 = "DELETE FROM users WHERE id = $user";
     
     if($conn->query($sql) === TRUE && $conn->query($sql2) === TRUE) {

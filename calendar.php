@@ -1,4 +1,5 @@
 <?php
+  require_once('config.php');
   include'authorized.php';
 
 ?>
@@ -30,7 +31,7 @@
             <div class="col-sm-2">
               <h5>UNAVAILABLE DAY</h5>
               <form>
-                <input type="date" name="un-date" id="un-date"><br>
+                <input type="datetime-local" name="un-date" id="un-date"><br>
                 <b><h7>REASON</h7></b>
                 <input type="text" name="reason" id="reason"><br>
                 <br>

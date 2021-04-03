@@ -1,7 +1,7 @@
 <?php 
     session_start();
     require_once('config.php');
-
+    $conn=db();
     $username = $conn->real_escape_string($_POST['username']);
     $password = $conn->real_escape_string($_POST['password']);
 

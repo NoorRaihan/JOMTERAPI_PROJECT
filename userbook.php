@@ -1,24 +1,48 @@
 <?php 
-
+    require_once('config.php');
     include'authorized.php';
-    $conn = new mysqli("localhost", "root", "", "mbsadmin");
     
-    if ($conn -> connect_error) {
-        echo "FAILED!";
-        exit(-1);
-        $conn -> close();
+    if(isset($_POST['submit'])) {
+        booking();
     }
 
-    $sql = "SELECT * FROM users WHERE id = 1";
+    function viewName() {
+        $conn = db();
+        $username = $_SESSION['username'];
+        $sql = "SELECT members.firstname, members.lastname FROM members INNER JOIN users ON users.id = members.u_id
+        WHERE users.username = '$username'";
 
-    $query = $conn -> query($sql);
+        $GET_NAME = $conn->query($sql);
+        $res = $GET_NAME->fetch_assoc();
+        return strtoupper($res['firstname'].' '.$res['lastname']);
+    }
 
-
-    while ($row = $query->fetch_assoc()) {
-        $name = $row['username'];
+    function booking() {
+        $conn = db();
+        $type_r = $conn->real_escape_string($_POST['typer']);
+        $date_ = $conn->real_escape_string(date("Y-m-d H:i:s", strtotime($_POST["date"])));
+        $person_ = $conn->real_escape_string($_POST['person']);
+        $message_ = $conn->real_escape_string($_POST['message']);
+        $cust_name = viewName();
+        $username = $_SESSION['username'];
+        $SQL_MEM_ID = "SELECT members.id FROM members INNER JOIN users ON members.u_id = users.id WHERE users.username = '$username'";
+        
+        $MEM_ID_RES = $conn->query($SQL_MEM_ID);
+        $MEM_ID_FETCH = $MEM_ID_RES->fetch_assoc();
+        $MEM_ID = $MEM_ID_FETCH['id'];
+        $sql = "INSERT INTO orders(username,dates,customers,person,type,message,members_id) VALUES('$username','$date_','$cust_name',$person_,'$type_r','$message_',$MEM_ID)";
+        $BOOK = $conn->query($sql);
+        
+        if($BOOK) {
+            echo "<script>alert('Your booking successfully created!')</script>";
+        }else {
+            echo "<script>alert('Failed to create booking!')</script>";
+        }
+        
     }
 
 
+    
 ?>
 
 
@@ -46,9 +70,9 @@
                 <h1>BOOKING SYSTEM</h1>
                 <div class="nama">
                     <p style="font-weight: bold;">NAME</p>
-                    <p style="margin-top: 1px; "><?php echo $name ?></p>
+                    <p style="margin-top: 1px; "><?php echo viewName(); ?></p>
                 </div>
-            <form>
+            <form action="userbook.php" method="POST">
                 <div class="wrap-in">
                     <div class="person">
                         <b><label for="person">PERSON</label></b><br>
@@ -68,12 +92,15 @@
                         </div>
                 </div>
                <b><label for="date">DATE</label></b><br>
-                <input type="date" name="date" id="date" placeholder="dd/mm/yyyy">
+                <input type="datetime-local" name="date" id="date" placeholder="dd/mm/yyyy">
+                <br>
+                <b><label for="message">MESSAGES</label></b><br>
+                <input type="text" name="message" id="message" placeholder="your messages">
                 <br>
                 <br>
                 <p style="width:280px; margin:auto; padding-bottom: 30px;;">Any problem or custom booking, please call 013-737-2091</p>
 
-                <input type="submit" value="BOOK NOW">
+                <input type="submit" name="submit" value="BOOK NOW">
             </form>
             </div>
         </section>

@@ -1,7 +1,7 @@
 <?php
   include'authorized.php';
   require_once('config.php');
-
+  $conn = db();
   $delete = $_POST['delete']??
 
   

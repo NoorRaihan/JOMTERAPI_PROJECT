@@ -1,17 +1,51 @@
 <?php
     require_once('config.php'); 
+    include'check_expired.php';
     include'authorized.php';
     $date = date("d M");
-    
    //still trying to get it into fucntional
-   
-    $sql = "SELECT members.firstname, members.lastname, members.sex, members.phone, members.u_id,users.username, users.email 
-    FROM members 
-    INNER JOIN users ON members.u_id = users.id 
-    WHERE users.roles <> 1";
 
-    $count = $conn->query($sql);
-    $res = $count->num_rows;
+    function counting() {
+        $conn = db();
+        $sql = "SELECT members.firstname, members.lastname, members.sex, members.phone, members.u_id,users.username, users.email 
+        FROM members 
+        INNER JOIN users ON members.u_id = users.id 
+        WHERE users.roles <> 1";
+        
+        $count = $conn->query($sql);
+        return $count->num_rows;
+    }
+
+    function countBook() {
+        $conn = db();
+        $booking = "SELECT * FROM orders WHERE status = 'active'";
+
+        $GET_BOOK = $conn->query($booking);
+        return $GET_BOOK->num_rows;
+    }
+    
+    function checkBook() {
+        $conn = db();
+        $username = $_SESSION['username'];
+        $check_id = "SELECT members.id FROM members INNER JOIN users ON members.u_id = users.id WHERE users.username = '$username'";
+        $GET_ID = $conn->query($check_id);
+        $ID_u = $GET_ID->fetch_assoc();
+        
+        $u_id = $ID_u['id'];
+        $latest_date = "SELECT DATEDIFF((SELECT dates FROM orders WHERE id = (SELECT MAX(id) FROM orders) AND members_id = $u_id AND status = 'active'), NOW()) AS duration";
+        $get_date = $conn->query($latest_date);
+
+        $get_dur = $get_date->fetch_assoc();
+        if($get_dur['duration'] == 0) {
+            $duration = "TODAY";
+        } else if($get_dur['duration'] < 0) {
+            $duration = "0 BOOKINGS";
+        } else {
+            $duration = $get_dur['duration']." days";
+        }
+        return $duration;
+    
+    }
 
 ?>
 
@@ -36,14 +70,14 @@
             include'adminhead.php';
             include'validaterole.php';
 
-            if($role == 1) { ?>
+            if($desc_role == 1) { ?>
 
 <section class="menu">
         <div class="menu-inner row row-cols-md-3">
             <div class="col">
                 <div id="clients_" class="card text-white mb-3" style="max-width: 18rem;">
                     <div class="card-body card-counter primary">
-                        <span class="count-numbers"><b>03</b><span style="font-size: 20px;">  people</span></span>
+                        <span class="count-numbers"><b><?php echo countBook();?></b><span style="font-size: 20px;">  bookings</span></span>
                         <span class="count-name">Clients Today</span>
                         <i class="fas fa-user"></i>
                     </div>
@@ -61,7 +95,7 @@
             <div class="col">
                 <div id="regisclient_" class="card text-white mb-3" style="max-width: 18rem;">
                     <div class="card-body card-counter primary">
-                        <span class="count-numbers"><b><?php echo $res; ?></b><span style="font-size: 20px;"> people</span></span>
+                        <span class="count-numbers"><b><?php echo counting(); ?></b><span style="font-size: 20px;"> people</span></span>
                         <span class="count-name">Registered Client</span>
                         <i class="fas fa-user-friends"></i>
                     </div>
@@ -96,7 +130,7 @@
             <div class="col">
                 <div id="booking_" class="card text-white mb-3" style="max-width: 18rem;">
                     <div class="card-body card-counter info">
-                        <span class="count-numbers"><b>TODAY</b></span>
+                        <span class="count-numbers"><b><?php echo checkBook(); ?></b></span>
                         <span class="count-name">Booking Reminder</span>
                         <i class="fas fa-bookmark"></i>
                     </div>
@@ -135,7 +169,7 @@
 
             }
 
-       ?>
+    ?>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>

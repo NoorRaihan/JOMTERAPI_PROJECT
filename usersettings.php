@@ -2,7 +2,7 @@
     include'authorized.php';
     require_once('config.php');
     include'validaterole.php';
-    
+    $conn = db();
     if(!isset($_POST['submit'])) {
 
         $fname = $lname = $gender = $email = $pnumber = $username = "";
@@ -23,7 +23,7 @@
         $TIMESTAMP = date('Y-m-d H:i:s');
         $hash = password_hash($password, PASSWORD_ARGON2I,$options);
     
-        $UPDATE_USERS_TABLE = "UPDATE users SET username = '$username', passwords = '$hash', email = '$email', updated_at = '$TIMESTAMP', updated_by = '$session_user'";
+        $UPDATE_USERS_TABLE = "UPDATE IGNORE users SET username = '$username', passwords = '$hash', email = '$email', updated_at = '$TIMESTAMP', updated_by = '$session_user'";
         $UPDATE_MEMBERS_TABLE = "UPDATE members SET firstname = '$fname', lastname = '$lname', sex = $gender, phone = '$pnumber'";
     
         $UPDATE_USERS = $conn->query($UPDATE_USERS_TABLE);
@@ -65,7 +65,8 @@
             </div>
             <div class="col acc-names">
                 <h1 style="font-size: 50px;"><b><?php echo strtoupper($_SESSION['username']); ?></b></h1>
-                <p>ACCOUNT'S LEVEL: USER</p>
+
+                <p>ACCOUNT'S LEVEL: <b><?php echo strtoupper($role);?></b></p>
             </div>
         </section>
         

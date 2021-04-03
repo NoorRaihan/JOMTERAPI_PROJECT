@@ -23,7 +23,7 @@
                         <div class="">
                             <h7>WELCOME</h7><br>
                             <?php
-                            if($role == 1) { ?>
+                            if($desc_role == 1) { ?>
                             <b><h7><?php echo $username,"(ADMIN)"; ?></h7></b>
                             <?php
                             } else { ?>
@@ -35,7 +35,7 @@
                         <ul class="list-inner">
 
                         <?php
-                            if($role == 1) { ?>
+                            if($desc_role == 1) { ?>
                                 <li><a href="dashboard.php">Dashboard</a></li>
                                 <li><a href="client.php">Clients</a></li>
                                 <li><a href="calendar.php">Calendar</a></li>

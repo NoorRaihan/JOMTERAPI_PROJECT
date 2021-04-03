@@ -3,17 +3,13 @@
     session_start();
 
     require_once('config.php');
-
+    $conn = db();
     $email = $conn->real_escape_string($_POST['email']);
     $password = $conn->real_escape_string($_POST['password']);
     
     $GET_PASS = "SELECT passwords FROM users WHERE email = '$email'";
     $GET_USER = "SELECT username FROM users WHERE email = '$email'";
  
-    $query = $conn->query($GET_PASS);
-    $row1 = $query->fetch_assoc();
-    $STORED_HASH = $row1['passwords'];
-    
 
     if(empty($user_res = $_POST['g-recaptcha-response'])) {
         ?>
@@ -36,6 +32,10 @@
         <?php
         }
     }
+
+    $query = $conn->query($GET_PASS);
+    $row1 = $query->fetch_assoc();
+    $STORED_HASH = $row1['passwords'];
     
     if (password_verify($password, $STORED_HASH)) {
 

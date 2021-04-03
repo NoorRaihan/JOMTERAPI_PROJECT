@@ -1,7 +1,7 @@
 <?php
 
     require_once('config.php');
-
+    $conn = db();
     $fname = $conn->real_escape_string($_POST['fname']);
     $lname = $conn->real_escape_string($_POST['lname']);
     $gender = $conn->real_escape_string($_POST['gender']);

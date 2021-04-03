@@ -1,19 +1,42 @@
 <?php 
-
+    require_once('config.php');
     include'authorized.php';
+    include'validaterole.php';
     setlocale(LC_ALL, 'ms_MY');
 
-    $date = strftime("%e %B %Y %R %p");
-    $data = array(
-        array($date, "MUHAMAD SAJAT" , 2, "01253643846", 'T', "Berikan saya urutan mantap"),
-        array($date, "HAIKAL HAKIMI" , 1, "0153647865", 'O', "Kaki saya kena buatan orang"),
-        array($date, "MUHAMAD DANISH" , 1, "0133244876", 'S', "tangan saya tk boleh gerak"),
-        array($date, "NUR AIN" , 3, "01936458899", 'TB', "Tualng belakang saya bengkok"),
-        array($date, "RAMESH RAMJAN" , 1, "0113638896", 'TS', "buku lali saya sakit main bola"),
-        array($date, "AHMAD ABU" , 2, "0123623623", 'B', "N/A"),
-        array($date, "ZARITH SOFIA" , 1, "0145668875", 'TS', "Kaki saya bengkak main hoki"),
-    );
+    $conn = db();
+    $username = $_SESSION['username'];
 
+    if($desc_role == 1) {
+        $check_id = "SELECT members.id FROM members INNER JOIN users ON members.u_id = users.id WHERE users.username = '$username'";
+    
+
+        $GET_ID = $conn->query($check_id);
+        $ID_u = $GET_ID->fetch_assoc();
+
+        $sql = "SELECT members.phone, orders.id, orders.dates, orders.customers, orders.person, orders.type, orders.message, orders.status 
+        FROM orders 
+        INNER JOIN members ON orders.members_id = members.id
+        WHERE orders.status <> 'active'";
+
+        $GET_ORDER = $conn->query($sql);
+    } else {
+
+        $check_id = "SELECT members.id FROM members INNER JOIN users ON members.u_id = users.id WHERE users.username = '$username'";
+    
+
+        $GET_ID = $conn->query($check_id);
+        $ID_u = $GET_ID->fetch_assoc();
+    
+        $sql = "SELECT members.phone, orders.id, orders.dates, orders.customers, orders.person, orders.type, orders.message, orders.status 
+        FROM orders 
+        INNER JOIN members ON orders.members_id = members.id
+        WHERE members.id =".$ID_u['id']." AND orders.status <> 'active'";
+    
+        $GET_ORDER = $conn->query($sql);
+    }
+    
+   
 
 ?>
 
@@ -51,6 +74,9 @@
             </div>
             <div class="col">
                 <ul class="listings">
+                <?php 
+                
+                ?>
                     <b><li class="listlist">S    - SARAF</li></b>
                     <b><li class="listlist">B    - BEKAM</li></b>
                     <b><li class="listlist">TS   - SPORT THERAPY</li></b>
@@ -73,13 +99,21 @@
                 <th scope="col">PHONE NUMBER</th>
                 <th scope="col">TYPE</th>
                 <th scope="col">MESSAGE</th>
-                <th scope="col">//</th>
+                <th scope="col">STATUS</th>
               </tr>
             </thead>
             <tbody>
-              <?php 
-                for ($i=0; $i < 7; $i++) {
-                  echo "<tr><th scope='row'>".($i+1)."</th><td>".$data[$i][0]."</td><td>".$data[$i][2]."</td><td>".$data[$i][3]."</td><td>".$data[$i][4]."</td><td>".$data[$i][5]."</td><td><span style='color:red;'  >DELETE</span></td></tr>";
+              <?php
+                $i = 0; 
+
+                while($row = $GET_ORDER->fetch_assoc()) {
+                  echo "<tr><th scope='row'>".($i+1)."</th>
+                  <td>".$row['dates']."</td>
+                  <td>".$row['person']."</td>
+                  <td>".$row['phone']."</td>
+                  <td>".$row['type']."</td>
+                  <td>".$row['message']."</td>
+                  <td>".$row['status']."</td></tr>";
                 }
               
               
