@@ -38,7 +38,7 @@
         $get_dur = $get_date->fetch_assoc();
         if($get_dur['duration'] == 0) {
             $duration = "TODAY";
-        } else if($get_dur['duration'] < 0) {
+        } else if($get_dur['duration'] < 0 || $get_dur['duration'] == NULL) {
             $duration = "0 BOOKINGS";
         } else {
             $duration = $get_dur['duration']." days";

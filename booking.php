@@ -41,18 +41,22 @@
         <link rel="stylesheet" href="dash.css">
     </head>
     <body>
-    <?php include'adminhead.php';
-        $u_id = $ID_u['id'];
-        $latest_date = "SELECT DATEDIFF((SELECT dates FROM orders WHERE id = (SELECT MAX(id) FROM orders) AND members_id = $u_id AND status = 'active'), NOW()) AS duration";
+    <?php include'adminhead.php'; 
+        $u_id = $ID_u['id']; 
+        var_dump($u_id);
+        $latest_date = "SELECT DATEDIFF((SELECT dates FROM orders WHERE id = (SELECT MAX(id) FROM orders WHERE status = 'active') AND members_id = $u_id AND status = 'active'), NOW()) AS duration";
 
         
         $get_date = $conn->query($latest_date);
 
         $get_dur = $get_date->fetch_assoc();
-
-        if($get_dur['duration'] == 0) {
+        
+        if($get_dur['duration'] == NULL) {
             
-            $duration = "TODAY";
+            $duration = "NO BOOK";
+        } elseif($get_dur['duration'] == 0){
+            
+            $duration = "TODAK";
         } else {
             $duration = $get_dur['duration']." days";
         }
@@ -87,7 +91,8 @@
         <table class="table-inner table table-bordered">
             <thead>
             <tr>
-                <th scope="col">#</th>
+                <th scope="col">NO</th>
+                <th style="display: none;" scope="col"></th>
                 <th scope="col">DATE AND TIME</th>
                 <th scope="col">NAME</th>
                 <th scope="col">P</th>
@@ -95,7 +100,7 @@
                 <th scope="col">TYPE</th>
                 <th scope="col">MESSAGE</th>
                 <th scope="col">STATUS</th>
-                <th scope="col">//</th>
+                <th scope="col">ACTION</th>
               </tr>
             </thead>
             <tbody>
@@ -112,11 +117,12 @@
                         
                         switch ($row['STATUS']) {
                             case 'expired' :
-                                $row['STATUS'] = "<a id='toggle' data-toggle='modal'  style='color:red;' 
-                                data-id='".$row['id']."' href='#myModal'>expired</a>";
+                                $row['STATUS'] = "<a class='toggle'  style='color:red;' 
+                                href='#myModal'>expired</a>";
                         }
 
                         echo "<tr><th scope='row'>".($i+1)."</th>
+                        <td style='display: none;'>".$row['id']."</td>
                         <td>".$row['dates']."</td>
                         <td>".$row['customers']."</td>
                         <td>".$row['person']."</td>
@@ -136,6 +142,7 @@
     </section>
 
     <!-- MODAL STUFFS## TEST PURPOSE-->
+    <!-- ################################################################################################### -->
     <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -146,14 +153,15 @@
                 <h4 class="modal-title">Your Booking has been Expired!</h4>
             </div>
             <div class="modal-body">
-                <p>Do you wish to cancel or reschedule the booking?</p>
+                <p>Do you wish to reschedule the booking?</p>
+                <p>If no please click on Cancel Button next to 'STATUS'</p>
                 <form action="book_status.php" method="POST">
-                    <div class="fetched-data"></div>
+                    <input type='hidden' name='updateid' id='updateid' readonly="readonly"/>
                     <label>Set new date for your booking</label><br>
-                    
                     <input type="datetime-local" name="reschedule-date" id="reschedule"><br>
-                    <button type="submit" name="reschedule" id="reschedule" class="btn btn-default" value="<?php $dataid ?>">Reschedule</button>
-                    <button type="submit" name="cancel" class="btn btn-default"  value="<?php $dataid ?>">Cancel</button>
+                    <button type="submit" class="btn btn-default" name="reschedule" value="reschedule">Reschedule</button>
+                   
+                    
             
                 </form>
             </div>
@@ -166,7 +174,8 @@
     </div>
     </div>
 
-
+    <!-- ################################################################################################### -->
+   
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
@@ -177,24 +186,21 @@
             window.open('dashboard.php', "_self"); 
         });
         
-        // $( "#toggle" ).click(function() {
-        //     $('#dataid').text($(this).data('id')); 
-        //     $('#showmodal').modal('show');
-        // });
+        
+        $( ".toggle" ).on('click', function() {
+            $('#myModal').modal('show');
 
-        $(document).ready(function(){
-            $('#myModal').on('show.bs.modal', function (e) {
-                var rowid = $(e.relatedTarget).data('id');
-                $.ajax({
-                    type : 'post',
-                    url : 'booking.php', //Here you will fetch records 
-                    data :  'id='+ rowid, //Pass $id
-                    success : function(data){
-                    $('.fetched-data').html(data);//Show fetched data from database
-                    }
-                });
-            });
+            
+            $tr = $(this).closest('tr');
+            var data =  $tr.children('td').map(function() {
+                return $(this).text();
+            }).get();
+            console.log(data);
+            
+            $('#updateid').val(data[0]);
+               
         });
+       
     </script>
     </body>
 </html>

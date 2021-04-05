@@ -42,6 +42,8 @@
                                 <li><a href="regisclient.php">Registered Clients</a></li>
                                 <li><a href="history.php">History</a></li>
                                 <li><a href="usersettings.php">Account</a></li> 
+
+                                
                             <?php
                             } else { ?>
 
