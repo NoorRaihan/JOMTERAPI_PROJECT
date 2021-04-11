@@ -56,9 +56,8 @@
                 <th scope="col">SEX</th>
                 <th scope="col">PHONE NUMBER</th>
                 <th scope="col">USERNAME</th>
-                <th scope="col">PASSWORD</th>
                 <th scope="col">EMAIL</th>
-                <th scope="col">//</th>
+                <th scope="col">ACTION</th>
               </tr>
             </thead>
             <tbody>
@@ -78,7 +77,6 @@
                   <td>".$row["sex"]."</td>
                   <td>".$row["phone"]."</td>
                   <td>".$row["username"]."</td>
-                  <td>*********</td>
                   <td>".$row["email"]."</td>
                   <td><form action='delete.php' method='POST'><button type='submit' name='delete' id='delete' value='".$row['u_id']."'>DELETE</button></form></td></tr>";
                   $COUNT++;

@@ -36,8 +36,8 @@
         $GET_ORDER = $conn->query($sql);
     }
     
-   
-
+    $COUNT = $GET_ORDER->num_rows;
+    
 ?>
 
 
@@ -66,8 +66,8 @@
             <div class="col">
                 <div class="card text-white mb-3" style="max-width: 18rem;">
                     <div class="card-body card-counter primary">
-                        <span class="count-numbers"><b>03</b><span style="font-size: 20px;">  people</span></span>
-                        <span class="count-name">Monthly Client</span>
+                        <span class="count-numbers"><b><?php echo $COUNT;?></b><span style="font-size: 20px;">  bookings</span></span>
+                        <span class="count-name">Booking history</span>
                         <i class="fas fa-user"></i>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
             <div class="col">
                 <ul class="listings">
                 <?php 
-                
+                   
                 ?>
                     <b><li class="listlist">S    - SARAF</li></b>
                     <b><li class="listlist">B    - BEKAM</li></b>
@@ -114,6 +114,7 @@
                   <td>".$row['type']."</td>
                   <td>".$row['message']."</td>
                   <td>".$row['status']."</td></tr>";
+                  $i++;
                 }
               
               

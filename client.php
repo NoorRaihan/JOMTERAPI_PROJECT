@@ -11,7 +11,9 @@
     WHERE orders.status = 'active'";
 
     $GET_BOOK = $conn->query($booking);
-    $BOOK_COUNT = $GET_BOOK->num_rows;
+    $GET_TODAY = "SELECT COUNT(id) as COUNT FROM orders WHERE status = 'active' AND dates = NOW()";
+    $TODAY_COUNT = $conn->query($GET_TODAY);
+    $BOOK_COUNT = $TODAY_COUNT->fetch_assoc();
 
 
 ?>
@@ -38,7 +40,7 @@
             <div class="col">
                 <div class="card text-white mb-3" style="max-width: 18rem;">
                     <div class="card-body card-counter primary">
-                        <span class="count-numbers"><b><?php echo $BOOK_COUNT; ?></b><span style="font-size: 20px;">  bookings</span></span>
+                        <span class="count-numbers"><b><?php echo $BOOK_COUNT['COUNT']; ?></b><span style="font-size: 20px;">  bookings</span></span>
                         <span class="count-name">Clients Today</span>
                         <i class="fas fa-user"></i>
                     </div>

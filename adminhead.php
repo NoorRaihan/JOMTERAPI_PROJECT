@@ -40,7 +40,7 @@
                                 <li><a href="client.php">Clients</a></li>
                                 <li><a href="calendar.php">Calendar</a></li>
                                 <li><a href="regisclient.php">Registered Clients</a></li>
-                                <li><a href="history.php">History</a></li>
+                                <li><a href="history.php">Booking History</a></li>
                                 <li><a href="usersettings.php">Account</a></li> 
 
                                 
@@ -50,7 +50,7 @@
                                 <li><a href="dashboard.php">Dashboard</a></li>
                                 <li><a href="booking.php">Bookings</a></li>
                                 <li><a href="userbook.php">Create Booking</a></li>
-                                <li><a href="history.php">History</a></li>
+                                <li><a href="history.php">Booking History</a></li>
                                 <li><a href="usersettings.php">Account</a></li>
 
                             <?php
