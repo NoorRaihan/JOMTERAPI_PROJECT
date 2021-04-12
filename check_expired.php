@@ -6,5 +6,5 @@
             FROM orders";
     
     $query = $conn->query($sql);
-    var_dump($DateNow);    
+        
 ?>

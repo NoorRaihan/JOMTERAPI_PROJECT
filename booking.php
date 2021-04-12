@@ -14,7 +14,7 @@
     $sql = "SELECT members.phone, orders.id, orders.dates, IF(orders.dates<NOW() ,'expired' ,STATUS) AS STATUS, orders.customers, orders.person, orders.type, orders.message, orders.status 
     FROM orders
     INNER JOIN members ON orders.members_id = members.id
-    WHERE members.id =".$ID_u['id']." AND orders.status <> 'canceled'";
+    WHERE members.id =".$ID_u['id']." AND orders.status = 'active'";
     
     $GET_ORDERS = $conn->query($sql);
     
@@ -44,7 +44,7 @@
     <?php include'adminhead.php'; 
         $u_id = $ID_u['id']; 
         var_dump($u_id);
-        $latest_date = "SELECT DATEDIFF((SELECT dates FROM orders WHERE id = (SELECT MAX(id) FROM orders WHERE status = 'active') AND members_id = $u_id AND status = 'active'), NOW()) AS duration";
+        $latest_date = "SELECT DATEDIFF((SELECT dates FROM orders WHERE id = (SELECT MAX(id) FROM orders WHERE status = 'active' AND dates >= NOW()) AND members_id = $u_id AND status = 'active'), NOW()) AS duration";
 
         
         $get_date = $conn->query($latest_date);

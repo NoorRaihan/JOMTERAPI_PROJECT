@@ -6,6 +6,17 @@
 
     $conn = db();
     $username = $_SESSION['username'];
+
+    $status = $_GET['status'] ?? '';
+
+    if($status == "canceled" || $status == "done") {
+        $status = $status;
+    } elseif(empty($status)) {
+        $status = "canceled";
+    } else {
+        die("Invalid parameter!");
+    }
+
    
     if($desc_role == 1) {
         $check_id = "SELECT members.id FROM members INNER JOIN users ON members.u_id = users.id WHERE users.username = '$username'";
@@ -17,7 +28,7 @@
         $sql = "SELECT members.phone, orders.id, orders.dates, orders.customers, orders.person, orders.type, orders.message, orders.status 
         FROM orders 
         INNER JOIN members ON orders.members_id = members.id
-        WHERE orders.status <> 'active'";
+        WHERE orders.status = '$status'";
 
         $GET_ORDER = $conn->query($sql);
     } else {
@@ -31,7 +42,7 @@
         $sql = "SELECT members.phone, orders.id, orders.dates, orders.customers, orders.person, orders.type, orders.message, orders.status 
         FROM orders 
         INNER JOIN members ON orders.members_id = members.id
-        WHERE members.id =".$ID_u['id']." AND orders.status <> 'active'";
+        WHERE members.id =".$ID_u['id']." AND orders.status = '$status'";
     
         $GET_ORDER = $conn->query($sql);
     }
