@@ -11,10 +11,30 @@
     $GET_ID = $conn->query($check_id);
     $ID_u = $GET_ID->fetch_assoc();
 
-    $sql = "SELECT members.phone, orders.id, orders.dates, IF(orders.dates<NOW() ,'expired' ,STATUS) AS STATUS, orders.customers, orders.person, orders.type, orders.message, orders.status 
-    FROM orders
-    INNER JOIN members ON orders.members_id = members.id
-    WHERE members.id =".$ID_u['id']." AND orders.status = 'active'";
+    $status = $_GET['status'] ?? '';
+
+    if(empty($status)) {
+
+        $sql = "SELECT members.phone, orders.id, orders.dates, IF(orders.dates<NOW() ,'expired' ,STATUS) AS STATUS, orders.customers, orders.person, orders.type, orders.message, orders.status 
+        FROM orders
+        INNER JOIN members ON orders.members_id = members.id
+        WHERE members.id =".$ID_u['id']." AND orders.status = 'active'";
+    
+    } elseif($status == "expired") {
+        $sql = "SELECT members.phone, orders.id, orders.dates, IF(orders.dates<NOW() ,'expired' ,STATUS) AS STATUS, orders.customers, orders.person, orders.type, orders.message, orders.status 
+        FROM orders
+        INNER JOIN members ON orders.members_id = members.id
+        WHERE members.id = 4 AND orders.status = 'active' AND orders.dates<NOW()";
+    
+    } elseif($status == "active") {
+        $sql = "SELECT members.phone, orders.id, orders.dates, IF(orders.dates<NOW() ,'expired' ,STATUS) AS STATUS, orders.customers, orders.person, orders.type, orders.message, orders.status 
+        FROM orders
+        INNER JOIN members ON orders.members_id = members.id
+        WHERE members.id = 4 AND orders.status = 'active' AND orders.dates>NOW()";
+
+    } else {
+        exit("Invalid parameter!");
+    }
     
     $GET_ORDERS = $conn->query($sql);
     
@@ -56,7 +76,7 @@
             $duration = "NO BOOK";
         } elseif($get_dur['duration'] == 0){
             
-            $duration = "TODAK";
+            $duration = "TODAY";
         } else {
             $duration = $get_dur['duration']." days";
         }

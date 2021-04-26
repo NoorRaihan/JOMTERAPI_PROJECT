@@ -50,7 +50,9 @@
                             } else { ?>
 
                                 <li><a href="dashboard.php">Dashboard</a></li>
-                                <li><a href="booking.php">Bookings</a></li>
+                                <li><a href="booking.php">All Bookings</a></li>
+                                <li><a href="booking.php?status=active">Active Bookings</a></li>
+                                <li><a href="booking.php?status=expired">Expired Bookings</a></li>
                                 <li><a href="userbook.php">Create Booking</a></li>
                                 <li><a href="history.php">Booking History</a></li>
                                 <li><a href="history2.php?status=canceled">Canceled Booking</a></li>

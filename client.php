@@ -8,10 +8,10 @@
     $booking = "SELECT members.phone, orders.id, orders.dates, orders.customers, orders.person, orders.type, orders.message, orders.status 
     FROM orders 
     INNER JOIN members ON orders.members_id = members.id
-    WHERE orders.status = 'active'";
+    WHERE orders.status = 'active' AND orders.dates >= NOW()";
 
     $GET_BOOK = $conn->query($booking);
-    $GET_TODAY = "SELECT COUNT(id) as COUNT FROM orders WHERE status = 'active' AND dates = NOW()";
+    $GET_TODAY = "SELECT COUNT(id) as COUNT FROM orders WHERE status = 'active' AND dates >= NOW()";
     $TODAY_COUNT = $conn->query($GET_TODAY);
     $BOOK_COUNT = $TODAY_COUNT->fetch_assoc();
 
@@ -71,13 +71,14 @@
                 <th scope="col">TYPE</th>
                 <th scope="col">MESSAGE</th>
                 <th scope="col">STATUS</th>
+                <th scope="col">ACTION</th>
+
               </tr>
             </thead>
             <tbody>
               <?php
                 $i = 0;
-                
-                if($BOOK_COUNT == 0) {
+                if($BOOK_COUNT['COUNT'] == 0) {
                     echo "<tr><td colspan = '8'>0 booking</td></tr>";
                 }else {
                     while($row = $GET_BOOK->fetch_assoc()) {
@@ -88,7 +89,8 @@
                         <td>".$row['phone']."</td>
                         <td>".$row['type']."</td>
                         <td>".$row['message']."</td>
-                        <td>".$row['status']."</td></tr>";
+                        <td>".$row['status']."</td>
+                        <td><form action='approve.php' method='POST'><button type='submit' name='done' id='done' value='".$row['id']."'>APPROVED</button></form></td></tr>";
                         $i++;
                       }
                 }

@@ -1,6 +1,5 @@
 <?php
     require_once('config.php'); 
-    include'check_expired.php';
     include'authorized.php';
     $date = date("d M");
    //still trying to get it into fucntional
@@ -18,7 +17,7 @@
 
     function countBook() {
         $conn = db();
-        $booking = "SELECT * FROM orders WHERE status = 'active'";
+        $booking = "SELECT * FROM orders WHERE status = 'active' AND dates = NOW()";
 
         $GET_BOOK = $conn->query($booking);
         return $GET_BOOK->num_rows;
@@ -32,7 +31,7 @@
         $ID_u = $GET_ID->fetch_assoc();
         
         $u_id = $ID_u['id'];
-        $latest_date = "SELECT DATEDIFF((SELECT dates FROM orders WHERE id = (SELECT MAX(id) FROM orders) AND members_id = $u_id AND status = 'active'), NOW()) AS duration";
+        $latest_date = "SELECT DATEDIFF((SELECT dates FROM orders WHERE id = (SELECT MAX(id) FROM orders WHERE status = 'active' AND dates >= NOW()) AND members_id = $u_id AND status = 'active'), NOW()) AS duration";
         $get_date = $conn->query($latest_date);
 
         $get_dur = $get_date->fetch_assoc();
@@ -43,6 +42,7 @@
         } else {
             $duration = $get_dur['duration']." days";
         }
+        
         return $duration;
     
     }
