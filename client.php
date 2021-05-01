@@ -3,15 +3,27 @@
     include'authorized.php';
     setlocale(LC_ALL, 'ms_MY');
 
+    $stat_id = intval($_GET['status']?? '');
+
+    if($stat_id == 1) {
+        $cond = ">=";
+    } elseif ($stat_id == 0) {
+        $cond = "=";
+    } elseif(empty($stat_id)) {
+        $cond = ">=";
+    } else {
+        die("Invalid parameter!");
+    }
+
     $conn = db();
     $date = strftime("%e %B %Y %R %p");
     $booking = "SELECT members.phone, orders.id, orders.dates, orders.customers, orders.person, orders.type, orders.message, orders.status 
     FROM orders 
     INNER JOIN members ON orders.members_id = members.id
-    WHERE orders.status = 'active' AND orders.dates >= NOW()";
+    WHERE orders.status = 'active' AND orders.dates $cond NOW()";
 
     $GET_BOOK = $conn->query($booking);
-    $GET_TODAY = "SELECT COUNT(id) as COUNT FROM orders WHERE status = 'active' AND dates >= NOW()";
+    $GET_TODAY = "SELECT COUNT(id) as COUNT FROM orders WHERE status = 'active' AND dates $cond NOW()";
     $TODAY_COUNT = $conn->query($GET_TODAY);
     $BOOK_COUNT = $TODAY_COUNT->fetch_assoc();
 
@@ -41,7 +53,7 @@
                 <div class="card text-white mb-3" style="max-width: 18rem;">
                     <div class="card-body card-counter primary">
                         <span class="count-numbers"><b><?php echo $BOOK_COUNT['COUNT']; ?></b><span style="font-size: 20px;">  bookings</span></span>
-                        <span class="count-name">Clients Today</span>
+                        <span class="count-name">Clients</span>
                         <i class="fas fa-user"></i>
                     </div>
                 </div>

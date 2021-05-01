@@ -24,13 +24,13 @@
         $sql = "SELECT members.phone, orders.id, orders.dates, IF(orders.dates<NOW() ,'expired' ,STATUS) AS STATUS, orders.customers, orders.person, orders.type, orders.message, orders.status 
         FROM orders
         INNER JOIN members ON orders.members_id = members.id
-        WHERE members.id = 4 AND orders.status = 'active' AND orders.dates<NOW()";
+        WHERE members.id =".$ID_u['id']." AND orders.status = 'active' AND orders.dates<NOW()";
     
     } elseif($status == "active") {
         $sql = "SELECT members.phone, orders.id, orders.dates, IF(orders.dates<NOW() ,'expired' ,STATUS) AS STATUS, orders.customers, orders.person, orders.type, orders.message, orders.status 
         FROM orders
         INNER JOIN members ON orders.members_id = members.id
-        WHERE members.id = 4 AND orders.status = 'active' AND orders.dates>NOW()";
+        WHERE members.id =".$ID_u['id']." AND orders.status = 'active' AND orders.dates>NOW()";
 
     } else {
         exit("Invalid parameter!");
@@ -134,7 +134,7 @@
                 } else {
                     while($row = $GET_ORDERS->fetch_assoc()) {
                         
-                        
+                        $time = date("d-m-Y g:i A", strtotime($row['dates']));
                         switch ($row['STATUS']) {
                             case 'expired' :
                                 $row['STATUS'] = "<a class='toggle'  style='color:red;' 
@@ -143,7 +143,7 @@
 
                         echo "<tr><th scope='row'>".($i+1)."</th>
                         <td style='display: none;'>".$row['id']."</td>
-                        <td>".$row['dates']."</td>
+                        <td>".$time."</td>
                         <td>".$row['customers']."</td>
                         <td>".$row['person']."</td>
                         <td>".$row['phone']."</td>
@@ -178,7 +178,19 @@
                 <form action="book_status.php" method="POST">
                     <input type='hidden' name='updateid' id='updateid' readonly="readonly"/>
                     <label>Set new date for your booking</label><br>
-                    <input type="datetime-local" name="reschedule-date" id="reschedule"><br>
+                    <input type="date" name="reschedule-date" id="reschedule"><br>
+                    <select name="reschedule-slot" id="reschedule-slot">
+                            <?php
+                                $conn = db();
+                                $slot = "SELECT time FROM slots";
+                                $res_slot = $conn->query($slot);
+
+                                while($row = $res_slot->fetch_assoc()) {
+                                    $time = date("g:i A", strtotime($row['time']));
+                                    echo "<option value='".$row['time']."'>".$time."</option>";
+                                }
+                            ?>
+                        </select>
                     <button type="submit" class="btn btn-default" name="reschedule" value="reschedule">Reschedule</button>
                    
                     

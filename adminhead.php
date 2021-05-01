@@ -2,7 +2,12 @@
     include'validaterole.php';
     $username = strtoupper($_SESSION['username']);
 ?>
-
+<style>
+    html {
+        ;
+    }
+}
+</style>
 
 <header>
             <section class="navbar">
@@ -17,7 +22,14 @@
             <section class="sidebar">
                 <div class="sidebar-inner row justify-content-around">
                     <div class="username-pic col-md-3">
-                        <img src="images/pp.jpg" class="pp rounded-circle">
+                    <?php
+                        $conn = db(); 
+                        $getpic = "SELECT members.pic FROM members INNER JOIN users ON members.u_id = users.id WHERE users.username = '$username'";
+                        $querypic = $conn->query($getpic);
+                        $pic = $querypic->fetch_assoc();
+                        
+                    ?>
+                        <img src="<?php echo $pic['pic']; ?>" class="pp rounded-circle">
                     </div>
                     <div class="username-name col">
                         <div class="">
@@ -37,13 +49,15 @@
                         <?php
                             if($desc_role == 1) { ?>
                                 <li><a href="dashboard.php">Dashboard</a></li>
-                                <li><a href="client.php">Clients</a></li>
-                                <li><a href="calendar.php">Calendar</a></li>
+                                <li><a href="client.php?status=0">Today Booking</a></li>
+                                <li><a href="client.php?status=1">Incoming Booking</a></li>
+                                <li><a href="calendar.php">Unavailable Slot</a></li>
                                 <li><a href="regisclient.php">Registered Clients</a></li>
                                 <li><a href="history.php">Booking History</a></li>
                                 <li><a href="history2.php?status=canceled">Canceled Booking</a></li>
                                 <li><a href="history2.php?status=done">Approved Booking</a></li>
-                                <li><a href="usersettings.php">Account</a></li> 
+                                <li><a href="usersettings.php">Account</a></li>
+                                <li><a href="setting.php">Setting</a></li> 
 
                                 
                             <?php

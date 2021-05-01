@@ -2,6 +2,36 @@
   require_once('config.php');
   include'authorized.php';
 
+  $conn = db();
+  $date_ = new DateTime($_POST['un-date']?? NULL);
+  $slot_ = new DateTime($_POST['un-slot']?? NULL);
+  $date_->setTime($slot_->format('H'), $slot_->format('i'), $slot_->format('s'));
+  $date = $date_->format("Y-m-d H:i:s");
+  $desc = $conn->real_escape_string($_POST['reason']?? NULL);
+  
+  if(isset($_POST['submit'])) {
+    addUnavailable($date,$desc);
+  
+  } elseif(isset($_POST['delete-un'])){
+    deleteUnavailable($_POST['delete-un']);
+    echo "test";
+  } else {
+    $date_ = NULL;
+    $slot_ = NULL;
+    $desc = NULL;
+  }
+
+  function addUnavailable($date,$desc) {
+    $conn = db();
+    $sql = "INSERT INTO unavailable(date_time,descs) VALUES('$date','$desc')";
+    $query = $conn->query($sql);
+  }
+
+  function deleteUnavailable($id) {
+    $conn=db();
+    $sql = "DELETE FROM unavailable WHERE id = $id";
+    $query = $conn->query($sql);
+  }
 ?>
 
 <!DOCTYPE html>
@@ -30,12 +60,32 @@
           <div class="lefty-inner">
             <div class="col-sm-2">
               <h5>UNAVAILABLE DAY</h5>
-              <form>
-                <input type="datetime-local" name="un-date" id="un-date"><br>
+              <form action="calendar.php" method="POST">
+              <div class="row">
+                <div class="col">
+                    <strong><label for="un-date">DATE</label></strong>
+                    <input type="date" name="un-date" id="un-date">
+                </div>
+                <div class="col">
+                    <strong><label for="un-slot">SLOTS</label></strong><br>
+                    <select id="un-slot" name="un-slot">
+                      <?php
+                          $conn = db();
+                          $slot = "SELECT time FROM slots";
+                          $res_slot = $conn->query($slot);
+
+                          while($row = $res_slot->fetch_assoc()) {
+                            $time = date("g:i A", strtotime($row['time']));
+                            echo "<option value='".$row['time']."'>".$time."</option>";
+                          }
+                        ?>
+                </select>
+                </div>
+              </div>
                 <b><h7>REASON</h7></b>
                 <input type="text" name="reason" id="reason"><br>
                 <br>
-                <input type="submit" class="btn" value="Add Date">
+                <input type="submit" class="btn" name="submit" value="Add Date">
               </form>
             </div>
             <div class="col">
@@ -44,33 +94,32 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">DATE</th>
-                    <th scope="col">TIME</th>
                     <th scope="col">REASON</th>
-                    <th scope="col">//</th>
+                    <th scope="col">ACTION</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>11 JAN 2021</td>
-                    <td>9:00PM</td>
-                    <td>CHINESE NEW YEAR</td>
-                    <td><span style="color:red;">DELETE</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>11 JAN 2021</td>
-                    <td>9:00PM</td>
-                    <td>CHINESE NEW YEAR</td>
-                    <td><span style="color:red;">DELETE</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>11 JAN 2021</td>
-                    <td>9:00PM</td>
-                    <td>CHINESE NEW YEAR</td>
-                    <td><span style="color:red;">DELETE</span></td>
-                  </tr>
+                  <?php
+                    $get_un = "SELECT * FROM unavailable";
+                    $query_un = $conn->query($get_un);
+                    $un_row = $query_un->num_rows;
+                    
+                    $i = 0;
+                    if($un_row == 0) {
+                      echo "<tr><td colspan='4'>0 set</td></tr>";
+                    } else {
+                      while($row2 = $query_un->fetch_assoc()){
+
+                        $time = date("Y-m-d g:i A", strtotime($row2['date_time']));
+                        
+                        echo "<tr><th scope='row'>".($i+1)."</th>
+                        <td>".$time."</td>
+                        <td>".$row2['descs']."</td>
+                        <td><form action='calendar.php' method='POST'><button type='submit' name='delete-un' id='delete-un' value='".$row2['id']."'>DELETE</button></form></td></tr>";
+                        $i++;
+                    }
+                  }
+                  ?>
                 </tbody>
               </table>
             </div>

@@ -35,10 +35,11 @@
         $get_date = $conn->query($latest_date);
 
         $get_dur = $get_date->fetch_assoc();
-        if($get_dur['duration'] == 0) {
+        
+        if($get_dur['duration'] == 0 && $get_dur['duration'] != NULL) {
             $duration = "TODAY";
         } else if($get_dur['duration'] < 0 || $get_dur['duration'] == NULL) {
-            $duration = "0 BOOKINGS";
+            $duration = "0 BOOKING";
         } else {
             $duration = $get_dur['duration']." days";
         }

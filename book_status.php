@@ -4,9 +4,13 @@
     $conn = db();
     
     $username = $_SESSION['username'];
+    $time_ = new DateTime($_POST['reschedule-slot']);
+    $date_ = new DateTime($_POST['reschedule-date']);
+    $date_->setTime($time_->format('H'), $time_->format('i'), $time_->format('s'));
+    $date = $date_->format('Y-m-d H:i:s');
     $id_cancel = $conn->real_escape_string($_POST['cancel'] ?? 'empty');
     $id_reschedule = $conn->real_escape_string($_POST['updateid']);
-    $date = $conn->real_escape_string(date("Y-m-d H:i:s", strtotime($_POST['reschedule-date'])));
+    
     
 
     
@@ -31,7 +35,8 @@
     function RescheduleBook($id_reschedule,$date,$username) {
         $conn = db();
         $sql = "UPDATE orders SET dates = '$date' WHERE id = $id_reschedule AND username = '$username'";
-        
+        echo "test";
+        var_dump($sql);
         if($conn->query($sql) === TRUE) {
              echo "<script>alert('Booking Successfully Rescheduled'); window.location.href = 'booking.php';</script>";
         } else {

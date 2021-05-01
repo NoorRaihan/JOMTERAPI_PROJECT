@@ -5,10 +5,9 @@
   $delete = $_POST['delete']??
 
   
-  $sql_user = "SELECT members.firstname, members.lastname, members.sex, members.phone, members.u_id,users.username, users.email 
+  $sql_user = "SELECT users.roles, members.firstname, members.lastname, members.sex, members.phone, members.u_id,users.username, users.email 
   FROM members 
-  INNER JOIN users ON members.u_id = users.id 
-  WHERE users.roles <> 1";
+  INNER JOIN users ON members.u_id = users.id";
 
   $GET_DATA = $conn->query($sql_user);
   $COUNT_MEM = $GET_DATA->num_rows;
@@ -57,6 +56,7 @@
                 <th scope="col">PHONE NUMBER</th>
                 <th scope="col">USERNAME</th>
                 <th scope="col">EMAIL</th>
+                <th scope="col">ROLE</th>
                 <th scope="col">ACTION</th>
               </tr>
             </thead>
@@ -70,14 +70,29 @@
                 }
 
                 while($row = $GET_DATA->fetch_assoc()) {
-                  
-                  echo "<tr><th scope='row'>".($COUNT+1)."</th>
+                  if($row['roles'] == 1) {
+                    $selected = "selected";
+                  } else {
+                    $selected = " ";
+                  }
+
+                  echo "
+                  <tr><th scope='row'>".($COUNT+1)."</th>
                   <td>".$row["firstname"]."</td>
                   <td>".$row["lastname"]."</td>
                   <td>".$row["sex"]."</td>
                   <td>".$row["phone"]."</td>
                   <td>".$row["username"]."</td>
                   <td>".$row["email"]."</td>
+                  <td>
+                  <form action='changerole.php' method='POST'> 
+                  <select name='role' id='role'>
+                    <option value='0' $selected>USER</option>
+                    <option value='1' $selected>ADMIN</option>
+                  </select>
+                  <button style='font-weight:bold; font-size: 12px; border: none; color:red;' type='submit' name='crole' id='crole' value='".$row['u_id']."'>CHANGE</button>
+                  </form>
+                  </td>
                   <td><form action='delete.php' method='POST'><button type='submit' name='delete' id='delete' value='".$row['u_id']."'>DELETE</button></form></td></tr>";
                   $COUNT++;
                 }

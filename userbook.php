@@ -20,7 +20,10 @@
     function booking() {
         $conn = db();
         $type_r = $conn->real_escape_string($_POST['typer']);
-        $date_ = $conn->real_escape_string(date("Y-m-d H:i:s", strtotime($_POST["date"])));
+        $date_ = new DateTime($_POST['date']);
+        $time_ = new DateTime($_POST['slot']);
+        $date_->setTime($time_->format('H'), $time_->format('i'), $time_->format('s'));
+        $date_ = $date_->format('Y-m-d H:i:s');
         $person_ = $conn->real_escape_string($_POST['person']);
         $message_ = $conn->real_escape_string($_POST['message']);
         $cust_name = viewName();
@@ -30,14 +33,35 @@
         $MEM_ID_RES = $conn->query($SQL_MEM_ID);
         $MEM_ID_FETCH = $MEM_ID_RES->fetch_assoc();
         $MEM_ID = $MEM_ID_FETCH['id'];
-        $sql = "INSERT INTO orders(username,dates,customers,person,type,message,members_id) VALUES('$username','$date_','$cust_name',$person_,'$type_r','$message_',$MEM_ID)";
-        $BOOK = $conn->query($sql);
-        
-        if($BOOK) {
-            echo "<script>alert('Your booking successfully created!')</script>";
-        }else {
-            echo "<script>alert('Failed to create booking!')</script>";
+
+        //------------filter bruh---------------------//
+        $fil = "SELECT COUNT(date_time) AS CC FROM unavailable WHERE date_time = '$date_'"; //filter the unavailbale
+        $qfil = $conn->query($fil);
+        $f_fil = $qfil->fetch_assoc();
+
+        $fil2 = "SELECT COUNT(dates) AS CC2 FROM orders WHERE dates = '$date_'"; //filter slot has been taken or not
+        $qfil2 = $conn->query($fil2);
+        $f_fil2 = $qfil2->fetch_assoc();
+
+
+        if($f_fil['CC'] > 0 || $f_fil2['CC2'] > 0) {
+            
+            echo "<script>alert('Slot are not available!')</script>";
+            
+        } else {
+
+            $sql = "INSERT INTO orders(username,dates,customers,person,type,message,members_id) VALUES('$username','$date_','$cust_name',$person_,'$type_r','$message_',$MEM_ID)";
+            $BOOK = $conn->query($sql);
+            
+            if($BOOK) {
+                echo "<script>alert('Your booking successfully created!')</script>";
+            }else {
+                echo "<script>alert('Booking can't be created!')</script>";
+            }
+            
         }
+        //-------------------------------------------//
+       
         
     }
 
@@ -91,8 +115,27 @@
                         </select>
                         </div>
                 </div>
-               <b><label for="date">DATE</label></b><br>
-                <input type="datetime-local" name="date" id="date" placeholder="dd/mm/yyyy">
+                <div class="row">
+                    <div class="col">
+                    <b><label for="date">DATE</label></b><br>
+                        <input type="date" name="date" id="date" placeholder="dd/mm/yyyy">
+                    </div>
+                    <div class="col">
+                        <b><label for="slot">SLOT</label></b><br>
+                        <select name="slot" id="slot">
+                            <?php
+                                $conn = db();
+                                $slot = "SELECT time FROM slots";
+                                $res_slot = $conn->query($slot);
+
+                                while($row = $res_slot->fetch_assoc()) {
+                                    $time = date("g:i A", strtotime($row['time']));
+                                    echo "<option value='".$row['time']."'>".$time."</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    </div>                
                 <br>
                 <b><label for="message">MESSAGES</label></b><br>
                 <input type="text" name="message" id="message" placeholder="your messages">

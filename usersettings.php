@@ -61,7 +61,14 @@
     <?php include'adminhead.php' ?>
         <section class="row prof-pic">
             <div class="col-2 prof-pic-inner">
-                <img src="images/pp.jpg" class="ppu rounded-circle">
+            <?php
+                        $conn = db(); 
+                        $getpic = "SELECT members.pic FROM members INNER JOIN users ON members.u_id = users.id WHERE users.username = '$username'";
+                        $querypic = $conn->query($getpic);
+                        $pic = $querypic->fetch_assoc();
+                        
+            ?>
+                <img src="<?php echo $pic['pic'] ?>" class="ppu rounded-circle">
             </div>
             <div class="col acc-names">
                 <h1 style="font-size: 50px;"><b><?php echo strtoupper($_SESSION['username']); ?></b></h1>
