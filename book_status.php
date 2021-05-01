@@ -4,20 +4,24 @@
     $conn = db();
     
     $username = $_SESSION['username'];
-    $time_ = new DateTime($_POST['reschedule-slot']);
-    $date_ = new DateTime($_POST['reschedule-date']);
+    $time_ = new DateTime($_POST['reschedule-slot']?? '');
+    $date_ = new DateTime($_POST['reschedule-date']?? '');
     $date_->setTime($time_->format('H'), $time_->format('i'), $time_->format('s'));
     $date = $date_->format('Y-m-d H:i:s');
     $id_cancel = $conn->real_escape_string($_POST['cancel'] ?? 'empty');
-    $id_reschedule = $conn->real_escape_string($_POST['updateid']);
+    $id_reschedule = $conn->real_escape_string($_POST['updateid']?? '');
     
     
 
     
     if($id_cancel != 'empty'){
         CancelBook($id_cancel, $username);
+        $time_ = '';
+        $date = '';
+        $date_ = '';
+        $id_reschedule = '';
     } else {
-        RescheduleBook($id_reschedule,$date,$username);
+        echo "test";
     }
 
     function CancelBook($id, $username) {

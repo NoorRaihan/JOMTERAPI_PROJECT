@@ -118,14 +118,16 @@
                 $i = 0; 
 
                 while($row = $GET_ORDER->fetch_assoc()) {
-                  echo "<tr><th scope='row'>".($i+1)."</th>
-                  <td>".$row['dates']."</td>
-                  <td>".$row['person']."</td>
-                  <td>".$row['phone']."</td>
-                  <td>".$row['type']."</td>
-                  <td>".$row['message']."</td>
-                  <td>".$row['status']."</td></tr>";
-                  $i++;
+                    $time = date("d-m-Y g:i A", strtotime($row['dates']));
+                    
+                    echo "<tr><th scope='row'>".($i+1)."</th>
+                    <td>".$time."</td>
+                    <td>".$row['person']."</td>
+                    <td>".$row['phone']."</td>
+                    <td>".$row['type']."</td>
+                    <td>".$row['message']."</td>
+                    <td>".$row['status']."</td></tr>";
+                    $i++;
                 }
               
               
