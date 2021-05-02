@@ -2,7 +2,7 @@
 
     session_start();
 
-    require_once('config.php');
+    require_once('./script/config.php');
     $conn = db();
     $email = $conn->real_escape_string($_POST['email']);
     $password = $conn->real_escape_string($_POST['password']);
@@ -49,7 +49,7 @@
             $_SESSION['username'] = $USER;
             $_SESSION['id'] = $session_id;
 
-            header("location: dashboard.php");
+            header("location: ../dashboard.php");
             exit();
         
         } else { ?>

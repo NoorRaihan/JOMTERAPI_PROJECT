@@ -1,6 +1,6 @@
 <?php
 
-    require_once('config.php');
+    require_once('./script/config.php');
     $conn = db();
     $fname = $conn->real_escape_string($_POST['fname']);
     $lname = $conn->real_escape_string($_POST['lname']);
@@ -35,7 +35,7 @@
 
 <html>
     <head>
-        <link rel="stylesheet" href="thanks.css">
+        <link rel="stylesheet" href="css/thanks.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">

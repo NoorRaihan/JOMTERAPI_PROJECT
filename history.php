@@ -1,7 +1,7 @@
 <?php 
-    require_once('config.php');
-    include'authorized.php';
-    include'validaterole.php';
+    require_once('./script/config.php');
+    include'include/authorized.php';
+    include'include/validaterole.php';
     setlocale(LC_ALL, 'ms_MY');
 
     $conn = db();
@@ -56,11 +56,11 @@
 
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-        <link rel="stylesheet" href="client.css">
-        <link rel="stylesheet" href="dash.css">
+        <link rel="stylesheet" href="css/client.css">
+        <link rel="stylesheet" href="css/dash.css">
     </head>
     <body>
-    <?php include'adminhead.php' ?>
+    <?php include'include/adminhead.php' ?>
     <section class="menu">
         <div class="menu-inner row row-cols-md-4">
             <div class="col">
@@ -94,7 +94,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">DATE AND TIME</th>
-                
+                <th scope="col">NAME</th>
                 <th scope="col">P</th>
                 <th scope="col">PHONE NUMBER</th>
                 <th scope="col">TYPE</th>
@@ -110,6 +110,7 @@
                     $time = date("d-m-Y g:i A", strtotime($row['dates']));
                     echo "<tr><th scope='row'>".($i+1)."</th>
                     <td>".$time."</td>
+                    <td>".$row['customers']."</td>
                     <td>".$row['person']."</td>
                     <td>".$row['phone']."</td>
                     <td>".$row['type']."</td>

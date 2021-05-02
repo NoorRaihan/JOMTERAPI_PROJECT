@@ -82,6 +82,7 @@ input[type=submit]{
 }
 
 .ppu {
+    margin-top: 20px;
     width: 200px;
     box-shadow: 0px 2px 10px #000000;
 }

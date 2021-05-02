@@ -1,6 +1,6 @@
 <?php 
 
-    require_once('config.php');
+    require_once('./script/config.php');
 
     $user = $_POST['delete'];
 

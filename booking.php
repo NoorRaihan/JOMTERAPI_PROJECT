@@ -1,6 +1,6 @@
 <?php 
-    require_once('config.php');
-    include'authorized.php';
+    require_once('./script/config.php');
+    include'include/authorized.php';
     setlocale(LC_ALL, 'ms_MY');
 
     $conn = db();
@@ -57,11 +57,11 @@
 
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-        <link rel="stylesheet" href="client.css">
-        <link rel="stylesheet" href="dash.css">
+        <link rel="stylesheet" href="css/client.css">
+        <link rel="stylesheet" href="css/dash.css">
     </head>
     <body>
-    <?php include'adminhead.php'; 
+    <?php include'include/adminhead.php'; 
         $u_id = $ID_u['id']; 
         var_dump($u_id);
         $latest_date = "SELECT DATEDIFF((SELECT dates FROM orders WHERE id = (SELECT MAX(id) FROM orders WHERE status = 'active' AND dates >= NOW()) AND members_id = $u_id AND status = 'active'), NOW()) AS duration";
@@ -150,7 +150,7 @@
                         <td>".$row['type']."</td>
                         <td>".$row['message']."</td>
                         <td><span style='color: forestgreen; font-weight:bold;'>".$row['STATUS']."</span></td>
-                        <td><form action='book_status.php' method='POST'><button type='submit' name='cancel' id='cancel' value='".$row['id']."'>CANCEL</button></form></td></tr>";
+                        <td><form action='./script/book_status.php' method='POST'><button type='submit' name='cancel' id='cancel' value='".$row['id']."'>CANCEL</button></form></td></tr>";
                         $i++;
                     }
                 }
@@ -175,7 +175,7 @@
             <div class="modal-body">
                 <p>Do you wish to reschedule the booking?</p>
                 <p>If no please click on Cancel Button next to 'STATUS'</p>
-                <form action="book_status.php" method="POST">
+                <form action="./script/book_status.php" method="POST">
                     <input type='hidden' name='updateid' id='updateid' readonly="readonly"/>
                     <label>Set new date for your booking</label><br>
                     <input type="date" name="reschedule-date" id="reschedule"><br>

@@ -1,6 +1,6 @@
 <?php 
-    require_once('config.php');
-    include'authorized.php';
+    require_once('./script/config.php');
+    include'include/authorized.php';
     $conn = db();
     
     $username = $_SESSION['username'];

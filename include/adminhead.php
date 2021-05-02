@@ -1,5 +1,5 @@
 <?php
-    include'validaterole.php';
+    include'include/validaterole.php';
     $username = strtoupper($_SESSION['username']);
 ?>
 <style>
@@ -12,7 +12,7 @@
 <header>
             <section class="navbar">
                 <i id="home" class="fas home fa-home"></i>
-                <a href="logout.php"><i onClick="" id="logout__" class="fas fa-sign-out-alt"></i></a>
+                <a href="./script/logout.php"><i onClick="" id="logout__" class="fas fa-sign-out-alt"></i></a>
                 <div class="navbar-2">
                     <p>MBS<span style="font-size: 20px;">ADMIN</span></p>
 
@@ -49,13 +49,18 @@
                         <?php
                             if($desc_role == 1) { ?>
                                 <li><a href="dashboard.php">Dashboard</a></li>
-                                <li><a href="client.php?status=0">Today Booking</a></li>
-                                <li><a href="client.php?status=1">Incoming Booking</a></li>
-                                <li><a href="calendar.php">Unavailable Slot</a></li>
+                                <li><a href="client.php?status=0">Booking</a></li>
+                                <ul class="sublist">
+                                    <li><a href="client.php?status=0">Today Booking</a></li>
+                                    <li><a href="client.php?status=1">Incoming Booking</a></li>
+                                </ul>
+                                <li><a href="slot.php">Unavailable Slot</a></li>
                                 <li><a href="regisclient.php">Registered Clients</a></li>
-                                <li><a href="history.php">Booking History</a></li>
-                                <li><a href="history2.php?status=canceled">Canceled Booking</a></li>
-                                <li><a href="history2.php?status=done">Approved Booking</a></li>
+                                <li><a href="history.php">History</a></li>
+                                <ul class="sublist">
+                                    <li><a href="history2.php?status=canceled">Canceled Booking</a></li>
+                                    <li><a href="history2.php?status=done">Approved Booking</a></li>
+                                </ul>
                                 <li><a href="usersettings.php">Account</a></li>
                                 <li><a href="setting.php">Setting</a></li> 
 

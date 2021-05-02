@@ -1,6 +1,6 @@
 <?php
-    require_once('config.php');
-    include'authorized.php';
+    require_once('./script/config.php');
+    include'include/authorized.php';
 
     $conn = db();
     $from = $_POST['t-from']?? NULL;
@@ -13,9 +13,12 @@
         $temp_to = $to;
         $stamp_from = strtotime($temp_from);
         $stamp_to = strtotime($temp_to);
-        
+        echo "test2";
+        var_dump($stamp_from);
+        var_dump($stamp_to);
         $delay = 1;
         while($stamp_from <= $stamp_to) {
+            echo "test";
             $time = date('H:i', $stamp_from);
             $sql_time = "INSERT INTO slots(time) VALUES('$time')";
             $slotq = $conn->query($sql_time);
@@ -30,12 +33,13 @@
             $check_row = "SELECT COUNT(TIME) AS COUNTER FROM slots";
             $q_row = $conn->query($check_row) or die();
             $fetch_row = $q_row->fetch_assoc();
-            var_dump($fetch_row);
+            
             if($fetch_row['COUNTER'] != 0) {
                 $clear_row = "DELETE FROM slots";
                 $clear = $conn->query($clear_row) or die();
                 generateTime($from,$to);
             } else {
+                echo "test";
                 generateTime($from,$to);
             }
 
@@ -61,12 +65,12 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="dash.css">
-        <link rel="stylesheet" href="client.css">
+        <link rel="stylesheet" href="css/dash.css">
+        <link rel="stylesheet" href="css/client.css">
     </head>
     <body>
-    <?php include'adminhead.php'?>
-       <section style="padding-left: 25%; margin-top:30px;" class="time">
+    <?php include'include/adminhead.php'?>
+       <section style="padding-left: 25%; padding-top:50px;" class="time">
             <form action="setting.php" method="POST">
                 <h3>WORKING HOUR</h3>
                 <strong><label for="t-from">FROM</label></strong>

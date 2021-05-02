@@ -1,7 +1,7 @@
 <?php
-    include'authorized.php';
-    require_once('config.php');
-    include'validaterole.php';
+    include'include/authorized.php';
+    require_once('./script/config.php');
+    include'include/validaterole.php';
     $conn = db();
     if(!isset($_POST['submit'])) {
 
@@ -22,9 +22,14 @@
         ];
         $TIMESTAMP = date('Y-m-d H:i:s');
         $hash = password_hash($password, PASSWORD_ARGON2I,$options);
-    
+
+        $username = $_SESSION['username'];
+        $user = "SELECT id FROM users WHERE username = '$username'";
+        $quser = $conn->query($user);
+        $id_user = $quser->fetch_assoc();
+
         $UPDATE_USERS_TABLE = "UPDATE IGNORE users SET username = '$username', passwords = '$hash', email = '$email', updated_at = '$TIMESTAMP', updated_by = '$session_user'";
-        $UPDATE_MEMBERS_TABLE = "UPDATE members SET firstname = '$fname', lastname = '$lname', sex = $gender, phone = '$pnumber'";
+        $UPDATE_MEMBERS_TABLE = "UPDATE members SET firstname = '$fname', lastname = '$lname', sex = $gender, phone = '$pnumber' WHERE u_id =".$id_user['id'];
     
         $UPDATE_USERS = $conn->query($UPDATE_USERS_TABLE);
         $UPDATE_MEMBERS = $conn->query($UPDATE_MEMBERS_TABLE);
@@ -47,7 +52,7 @@
 
 <html>
     <head>
-        <link rel="stylesheet" href="userset.css">
+        <link rel="stylesheet" href="css/userset.css">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
         <meta charset="utf-8">
@@ -55,10 +60,10 @@
         <title>USER SETTING</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="dash.css">
+        <link rel="stylesheet" href="css/dash.css">
     </head>
     <body>
-    <?php include'adminhead.php' ?>
+    <?php include'include/adminhead.php' ?>
         <section class="row prof-pic">
             <div class="col-2 prof-pic-inner">
             <?php

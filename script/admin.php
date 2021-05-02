@@ -1,6 +1,6 @@
 <?php 
     session_start();
-    require_once('config.php');
+    require_once('../script/config.php');
     $conn=db();
     $username = $conn->real_escape_string($_POST['username']);
     $password = $conn->real_escape_string($_POST['password']);
@@ -25,7 +25,7 @@
             $_SESSION['log_in'] = True;
             $_SESSION['id'] = $session_id;
 
-            header("location: dashboard.php");
+            header("location: ../dashboard.php");
             exit();
         } else {
             ?> 

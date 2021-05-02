@@ -1,6 +1,6 @@
 <?php
-    require_once('config.php'); 
-    include'authorized.php';
+    require_once('./script/config.php'); 
+    include'include/authorized.php';
     $date = date("d M");
    //still trying to get it into fucntional
 
@@ -64,12 +64,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-        <link rel="stylesheet" href="dash.css">
+        <link rel="stylesheet" href="css/dash.css">
     </head>
     <body>
        <?php 
-            include'adminhead.php';
-            include'validaterole.php';
+            include'include/adminhead.php';
+            include'include/validaterole.php';
 
             if($desc_role == 1) { ?>
 
@@ -192,7 +192,7 @@
 
 
         $( "#calendar_" ).click(function() {
-            window.open('calendar.php', "_self"); 
+            window.open('slot.php', "_self"); 
         });
 
         $( "#admin_" ).click(function() {
@@ -204,7 +204,7 @@
         });
 
         // $( "#logout_" ).click(function() {
-        //     window.open('logout.php', "_self"); 
+        //     window.open('./script/logout.php', "_self"); 
         // });
 
         $( "#c_book_" ).click(function() {
