@@ -2,7 +2,7 @@
 
     session_start();
 
-    require_once('./script/config.php');
+    require_once('config.php');
     $conn = db();
     $email = $conn->real_escape_string($_POST['email']);
     $password = $conn->real_escape_string($_POST['password']);

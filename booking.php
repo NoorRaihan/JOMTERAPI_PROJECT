@@ -64,7 +64,7 @@
     <?php include'include/adminhead.php'; 
         $u_id = $ID_u['id']; 
         var_dump($u_id);
-        $latest_date = "SELECT DATEDIFF((SELECT dates FROM orders WHERE id = (SELECT MAX(id) FROM orders WHERE status = 'active' AND dates >= NOW()) AND members_id = $u_id AND status = 'active'), NOW()) AS duration";
+        $latest_date = "SELECT DATEDIFF((SELECT dates FROM orders WHERE id = (SELECT MAX(id) FROM orders WHERE status = 'active' AND dates >= NOW() AND members_id = $u_id) AND members_id = $u_id AND status = 'active'), NOW()) AS duration";
 
         
         $get_date = $conn->query($latest_date);
@@ -134,7 +134,7 @@
                 } else {
                     while($row = $GET_ORDERS->fetch_assoc()) {
                         
-                        $time = date("d-m-Y g:i A", strtotime($row['dates']));
+                        $time = date("d/m/Y g:i A", strtotime($row['dates']));
                         switch ($row['STATUS']) {
                             case 'expired' :
                                 $row['STATUS'] = "<a class='toggle'  style='color:red;' 
@@ -150,7 +150,7 @@
                         <td>".$row['type']."</td>
                         <td>".$row['message']."</td>
                         <td><span style='color: forestgreen; font-weight:bold;'>".$row['STATUS']."</span></td>
-                        <td><form action='./script/book_status.php' method='POST'><button type='submit' name='cancel' id='cancel' value='".$row['id']."'>CANCEL</button></form></td></tr>";
+                        <td><form action='./script/book_status.php' method='POST'><button type='submit' name='cancel' id='cancel' value='".$row['id']."' onclick='return confirm(`Are you sure want to proceed this action?`)'>CANCEL</button></form></td></tr>";
                         $i++;
                     }
                 }
@@ -178,8 +178,8 @@
                 <form action="./script/book_status.php" method="POST">
                     <input type='hidden' name='updateid' id='updateid' readonly="readonly"/>
                     <label>Set new date for your booking</label><br>
-                    <input type="date" name="reschedule-date" id="reschedule"><br>
-                    <select name="reschedule-slot" id="reschedule-slot">
+                    <input type="date" name="reschedule-date" id="reschedule" required><br>
+                    <select name="reschedule-slot" id="reschedule-slot" required>
                             <?php
                                 $conn = db();
                                 $slot = "SELECT time FROM slots";

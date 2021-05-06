@@ -54,7 +54,7 @@
             $BOOK = $conn->query($sql);
             
             if($BOOK) {
-                echo "<script>alert('Your booking successfully created!')</script>";
+                echo "<script>alert('Your booking successfully created!'); window.location.href='booking.php';</script>";
             }else {
                 echo "<script>alert('Booking can't be created!')</script>";
             }

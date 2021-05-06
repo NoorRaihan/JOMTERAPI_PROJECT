@@ -1,5 +1,5 @@
 <?php
-    require_once('./script/config.php');
+    require_once('config.php');
     include'include/authorized.php';
     $conn = db();
 

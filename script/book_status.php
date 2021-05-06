@@ -1,6 +1,6 @@
 <?php 
-    require_once('./script/config.php');
-    include'include/authorized.php';
+    require_once('config.php');
+    include'../include/authorized.php';
     $conn = db();
     
     $username = $_SESSION['username'];
@@ -29,7 +29,7 @@
         $sql = "UPDATE orders SET status = 'canceled' WHERE id = $id AND username = '$username'";
    
         if($conn->query($sql) === TRUE) {
-            echo "<script>alert('Booking Successfully Canceled'); window.location.href = 'booking.php';</script>";
+            echo "<script>alert('Booking Successfully Canceled'); window.location.href = '../booking.php';</script>";
         } else {
             echo "failed";
             var_dump($id_cancel);
@@ -44,7 +44,7 @@
         if($conn->query($sql) === TRUE) {
              echo "<script>alert('Booking Successfully Rescheduled'); window.location.href = 'booking.php';</script>";
         } else {
-            echo "<script>alert('Failed to Reschedule!); window.location.href = 'booking.php';</script>";
+            echo "<script>alert('Failed to Reschedule!); window.location.href = '../booking.php';</script>";
         }
     }
     

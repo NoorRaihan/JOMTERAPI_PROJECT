@@ -45,6 +45,52 @@
         </div>    
     </section>
 
+    <!-- MODAL STUFFS## TEST PURPOSE-->
+    <!-- ################################################################################################### -->
+    <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+    
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Role Change Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you wish to proceed this action?</p>
+                <form action="./script/book_status.php" method="POST">
+                    <input type='hidden' name='updateid' id='updateid' readonly="readonly"/>
+                    <label>Set new date for your booking</label><br>
+                    <input type="date" name="reschedule-date" id="reschedule"><br>
+                    <select name="reschedule-slot" id="reschedule-slot">
+                            <?php
+                                $conn = db();
+                                $slot = "SELECT time FROM slots";
+                                $res_slot = $conn->query($slot);
+
+                                while($row = $res_slot->fetch_assoc()) {
+                                    $time = date("g:i A", strtotime($row['time']));
+                                    echo "<option value='".$row['time']."'>".$time."</option>";
+                                }
+                            ?>
+                        </select>
+                    <button type="submit" class="btn btn-default" name="reschedule" value="reschedule">Reschedule</button>
+                   
+                    
+            
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    <!-- ################################################################################################### -->
+
     <section class="table_client">
         <table class="table-inner table table-bordered">
             <thead>
@@ -90,10 +136,10 @@
                     <option value='0' $selected>USER</option>
                     <option value='1' $selected>ADMIN</option>
                   </select>
-                  <button style='font-weight:bold; font-size: 12px; border: none; color:red;' type='submit' name='crole' id='crole' value='".$row['u_id']."'>CHANGE</button>
+                  <button style='font-weight:bold; font-size: 12px; border: none; color:red;' type='submit' name='crole' id='crole' value='".$row['u_id']."' onclick='return confirm(`Are you sure want to proceed this action?`)'>CHANGE</button>
                   </form>
                   </td>
-                  <td><form action='./script/delete.php' method='POST'><button type='submit' name='delete' id='delete' value='".$row['u_id']."'>DELETE</button></form></td></tr>";
+                  <td><form action='./script/delete.php' method='POST'><button type='submit' name='delete' id='delete' value='".$row['u_id']."' onclick='return confirm(`Are you sure want to proceed this action?`)'>DELETE</button></form></td></tr>";
                   $COUNT++;
                 }
 
@@ -113,7 +159,20 @@
             window.open('dashboard.php', "_self"); 
         });
         
-});
+        $( ".toggle" ).on('click', function() {
+            $('#myModal').modal('show');
+
+            
+            $tr = $(this).closest('tr');
+            var data =  $tr.children('td').map(function() {
+                return $(this).text();
+            }).get();
+            console.log(data);
+            
+            $('#updateid').val(data[0]);
+               
+        });
+
     </script>
     </body>
 </html>

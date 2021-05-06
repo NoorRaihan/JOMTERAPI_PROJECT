@@ -107,7 +107,7 @@
                 $i = 0; 
                 
                 while($row = $GET_ORDER->fetch_assoc()) {
-                    $time = date("d-m-Y g:i A", strtotime($row['dates']));
+                    $time = date("d/m/Y g:i A", strtotime($row['dates']));
                     echo "<tr><th scope='row'>".($i+1)."</th>
                     <td>".$time."</td>
                     <td>".$row['customers']."</td>

@@ -105,10 +105,10 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">DATE AND TIME</th>
-                
-                <th scope="col">P</th>
+                <th scope="col">NAME</th>
+                <th scope="col">PERSON</th>
                 <th scope="col">PHONE NUMBER</th>
-                <th scope="col">TYPE</th>
+                <th scope="col">LABEL</th>
                 <th scope="col">MESSAGE</th>
                 <th scope="col">STATUS</th>
               </tr>
@@ -118,10 +118,11 @@
                 $i = 0; 
 
                 while($row = $GET_ORDER->fetch_assoc()) {
-                    $time = date("d-m-Y g:i A", strtotime($row['dates']));
+                    $time = date("d/m/Y g:i A", strtotime($row['dates']));
                     
                     echo "<tr><th scope='row'>".($i+1)."</th>
                     <td>".$time."</td>
+                    <td>".$row['customers']."</td>
                     <td>".$row['person']."</td>
                     <td>".$row['phone']."</td>
                     <td>".$row['type']."</td>

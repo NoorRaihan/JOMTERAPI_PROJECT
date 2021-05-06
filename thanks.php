@@ -9,7 +9,8 @@
     $pnumber = $conn->real_escape_string($_POST['p-num']);
     $username = $conn->real_escape_string($_POST['username']);
     $password = $conn->real_escape_string($_POST['password']);
-
+    $fname = strtoupper($fname);
+    $lname = strtoupper($lname);
     $options = [
         'memory_cost' => 2048,
         'time_cost' => 4
@@ -49,7 +50,7 @@
         <div class="shape1"></div>
         
         <section class="admin-text">
-            <h1 class="regist">THANK YOU <?php echo $username ?> FOR REGISTER</h1>
+            <h1 class="regist">THANK YOU <?php echo $lname.' '.$fname ?> FOR REGISTER</h1>
             <p style="font-weight: lighter; font-size: 20px; text-align: left; width:700px;">Please check your email withing 5 - 10 minutes to receive an email from us.
                 If you have any problem please email us on MBS@email.com<br><a href="user-login.html">Login</a></p>
         </section>
