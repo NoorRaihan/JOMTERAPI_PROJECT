@@ -15,11 +15,14 @@
         $stamp_from = strtotime($temp_from);
         $stamp_to = strtotime($temp_to);
 
-        if($stamp_to <= $stamp_from) {
-            echo "<script>alert('Make sure END time bigger than FROM time'); window.location.href = 'setting.php'</script>";
+        if($stamp_to <= $stamp_from && $stamp_to >= 1620345600) {
+            $stamp_to = $stamp_to + (60*60*24);
+
+        } else if($stamp_to <= $stamp_from) {
+            echo "<script>alert('FROM time cant be bigger than TO time!'); window.location.href = 'setting.php'</script>";
         }
 
-        while($stamp_from <= $stamp_to) {
+        while($stamp_from < $stamp_to) {
             $time = date('H:i', $stamp_from);
             $sql_time = "INSERT INTO slots(time) VALUES('$time')";
             $slotq = $conn->query($sql_time);
@@ -40,7 +43,6 @@
                 $clear = $conn->query($clear_row) or die();
                 generateTime($from,$to,$delay);
             } else {
-                echo "test";
                 generateTime($from,$to,$delay);
             }
 
@@ -75,17 +77,17 @@
             <form action="setting.php" method="POST">
                 <h3>WORKING HOUR</h3>
                 <strong><label for="t-from">FROM</label></strong>
-                <input type="time" class="t-from" id="t-from" name="t-from" required/>
+                <input type="time" class="t-from" id="t-from" name="t-from" min="00:00" required/>
 
                 <strong><label for="t-to">TO</label></strong>
-                <input type="time" class="t-to" id="t-to" name="t-to" required/><br><br>
+                <input type="time" class="t-to" id="t-to" name="t-to" min="00:00" max="23:59" required/><br><br>
 
                 <strong><label for="delay">PER SLOT</label></strong>
                 <input type="number" class="delay" id="delay" name="delay" required/>
                 <strong><label for="delay">minutes</label></strong><br><br>
                 <input type="submit" class="btn" value="submit"/>
             </form>
-            <i>If you want to use 12:00AM please use 11:59PM instead.</i>
+
        </section>
         
         <script src="" async defer></script>
