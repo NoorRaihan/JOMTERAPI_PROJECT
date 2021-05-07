@@ -94,7 +94,7 @@
                     echo "<tr><td colspan = '8'>0 booking</td></tr>";
                 }else {
                     while($row = $GET_BOOK->fetch_assoc()) {
-                        $time = date("d-m-Y g:i A", strtotime($row['dates']));
+                        $time = date("d/m/Y g:i A", strtotime($row['dates']));
                         echo "<tr><th scope='row'>".($i+1)."</th>
                         <td>".$time."</td>
                         <td>".$row['customers']."</td>
@@ -103,7 +103,7 @@
                         <td>".$row['type']."</td>
                         <td>".$row['message']."</td>
                         <td>".$row['status']."</td>
-                        <td><form action='./script/approve.php' method='POST'><button type='submit' name='done' id='done' value='".$row['id']."'>APPROVED</button></form></td></tr>";
+                        <td><form action='./script/approve.php' method='POST'><button type='submit' name='done' id='done' value='".$row['id']."' onclick='return confirm(`Are you sure want to approve this booking?`)'>APPROVED</button></form></td></tr>";
                         $i++;
                       }
                 }

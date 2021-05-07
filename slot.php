@@ -14,7 +14,6 @@
   
   } elseif(isset($_POST['delete-un'])){
     deleteUnavailable($_POST['delete-un']);
-    echo "test";
   } else {
     $date_ = NULL;
     $slot_ = NULL;
@@ -110,12 +109,12 @@
                     } else {
                       while($row2 = $query_un->fetch_assoc()){
 
-                        $time = date("Y-m-d g:i A", strtotime($row2['date_time']));
+                        $time = date("d/m/Y g:i A", strtotime($row2['date_time']));
                         
                         echo "<tr><th scope='row'>".($i+1)."</th>
                         <td>".$time."</td>
                         <td>".$row2['descs']."</td>
-                        <td><form action='slot.php' method='POST'><button type='submit' name='delete-un' id='delete-un' value='".$row2['id']."'>DELETE</button></form></td></tr>";
+                        <td><form action='slot.php' method='POST'><button type='submit' name='delete-un' id='delete-un' value='".$row2['id']."' onclick='return confirm(`Are you sure want to proceed this action?`)'>DELETE</button></form></td></tr>";
                         $i++;
                     }
                   }
