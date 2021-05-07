@@ -116,19 +116,22 @@
             <tbody>
               <?php
                 $i = 0; 
-
-                while($row = $GET_ORDER->fetch_assoc()) {
-                    $time = date("d/m/Y g:i A", strtotime($row['dates']));
-                    
-                    echo "<tr><th scope='row'>".($i+1)."</th>
-                    <td>".$time."</td>
-                    <td>".$row['customers']."</td>
-                    <td>".$row['person']."</td>
-                    <td>".$row['phone']."</td>
-                    <td>".$row['type']."</td>
-                    <td>".$row['message']."</td>
-                    <td>".$row['status']."</td></tr>";
-                    $i++;
+                if($COUNT == 0) {
+                    echo "<tr><td colspan='8'>0 history</td></tr>";
+                } else {
+                    while($row = $GET_ORDER->fetch_assoc()) {
+                        $time = date("d/m/Y g:i A", strtotime($row['dates']));
+                        
+                        echo "<tr><th scope='row'>".($i+1)."</th>
+                        <td>".$time."</td>
+                        <td>".$row['customers']."</td>
+                        <td>".$row['person']."</td>
+                        <td>".$row['phone']."</td>
+                        <td>".$row['type']."</td>
+                        <td>".$row['message']."</td>
+                        <td>".$row['status']."</td></tr>";
+                        $i++;
+                    }
                 }
               
               

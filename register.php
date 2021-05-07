@@ -26,35 +26,35 @@
             <div class="form-cont">
                 <form name="regisform" action="thanks.php" method="POST" onsubmit="return compare()">
                     <label for="fname">First Name</label><br>
-                    <input type="text" id="fname" name="fname" placeholder="First Name" value=""><br>
+                    <input type="text" id="fname" name="fname" placeholder="First Name" value="" required><br>
 
                     <label for="lname">Last Name</label><br>
-                    <input type="text" id="lname" name="lname" placeholder="Last Name" value=""><br>
+                    <input type="text" id="lname" name="lname" placeholder="Last Name" value="" required><br>
                     
                     <br>
 
-                    <input type="radio" id="male" name="gender" placeholder=""value="1">
+                    <input type="radio" id="male" name="gender" placeholder=""value="1" required>
                     <label for="male">Male</label>
 
-                    <input type="radio" id="female" name="gender" placeholder="" value="2">
+                    <input type="radio" id="female" name="gender" placeholder="" value="2" required>
                     <label for="female">Female</label><br>
                     
                     <br>
 
-                    <label for="p-num">pnumber</label><br>
-                    <input type="number" id="pnumber" name="p-num" placeholder="Phone Number" value=""><br>
+                    <label for="p-num">Phone Number</label><br>
+                    <input type="number" id="pnumber" name="p-num" placeholder="Phone Number" value="" required><br>
 
                     <label for="username">Username</label><br>
-                    <input type="text" id="username" name="username" placeholder="Username" value=""><br>
+                    <input type="text" id="username" name="username" placeholder="Username" value="" required><br>
 
                     <label for="email">Email</label><br>
-                    <input type="email" id="email" name="email" placeholder="Email address" value=""><br>
+                    <input type="email" id="email" name="email" placeholder="Email address" value="" required><br>
 
                     <label for="password">Password</label><br>
-                    <input type="password" id="password" name="password" placeholder="Password"><br>
+                    <input type="password" id="password" name="password" placeholder="Password" required><br>
                     
-                    <label for="cpassword">Password</label><br>
-                    <input type="password" id="cpassword" name="cpassword" placeholder="Retype Password"><br>
+                    <label for="cpassword">Confirm Password</label><br>
+                    <input type="password" id="cpassword" name="cpassword" placeholder="Retype Password" required><br>
 
                     <input type="submit" name="submit" value="REGISTER"> 
                 </form>

@@ -2,8 +2,9 @@
     require_once('./script/config.php');
     include'include/authorized.php';
     
+    $alert = 'none';
     if(isset($_POST['submit'])) {
-        booking();
+        $alert = booking();
     }
 
     function viewName() {
@@ -46,8 +47,9 @@
 
         if($f_fil['CC'] > 0 || $f_fil2['CC2'] > 0) {
             
-            echo "<script>alert('Slot are not available!')</script>";
-            
+            $alert = "block";
+            return $alert;
+
         } else {
 
             $sql = "INSERT INTO orders(username,dates,customers,person,type,message,members_id) VALUES('$username','$date_','$cust_name',$person_,'$type_r','$message_',$MEM_ID)";
@@ -134,6 +136,12 @@
                                 }
                             ?>
                         </select>
+                        <?php
+                        
+                            echo " <div style='display:$alert;' class='alert' id='alert'><p style='color:red;'>Slots are not available!</p></div>";
+                        
+                        ?>
+                       
                     </div>
                     </div>                
                 <br>

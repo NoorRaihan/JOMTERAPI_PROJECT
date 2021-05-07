@@ -14,7 +14,7 @@
                 <i id="home" class="fas home fa-home"></i>
                 <a href="./script/logout.php"><i onClick="" id="logout__" class="fas fa-sign-out-alt"></i></a>
                 <div class="navbar-2">
-                    <p>MBS<span style="font-size: 20px;">ADMIN</span></p>
+                    <p>JOM<span style="font-size: 20px;">TERAPI</span></p>
 
                 </div>
             </section>
@@ -69,13 +69,17 @@
                             } else { ?>
 
                                 <li><a href="dashboard.php">Dashboard</a></li>
-                                <li><a href="booking.php">All Bookings</a></li>
-                                <li><a href="booking.php?status=active">Active Bookings</a></li>
-                                <li><a href="booking.php?status=expired">Expired Bookings</a></li>
-                                <li><a href="userbook.php">Create Booking</a></li>
-                                <li><a href="history.php">Booking History</a></li>
-                                <li><a href="history2.php?status=canceled">Canceled Booking</a></li>
-                                <li><a href="history2.php?status=done">Approved Booking</a></li>
+                                <li><a href="booking.php">Bookings</a></li>
+                                <ul class="sublist">
+                                    <li><a href="booking.php?status=active">Active Bookings</a></li>
+                                    <li><a href="booking.php?status=expired">Expired Bookings</a></li>
+                                    <li><a href="userbook.php">Create Booking</a></li>
+                                </ul>
+                                <li><a href="history.php">History</a></li>
+                                <ul class="sublist">
+                                    <li><a href="history2.php?status=canceled">Canceled Booking</a></li>
+                                    <li><a href="history2.php?status=done">Approved Booking</a></li>
+                                </ul>
                                 <li><a href="usersettings.php">Account</a></li>
 
                             <?php

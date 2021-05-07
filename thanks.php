@@ -30,6 +30,9 @@
     $id_res = $result1['id'];
     $member = "INSERT INTO members(firstname,lastname,sex,phone,u_id) VALUES('$fname','$lname','$gender','$pnumber','$id_res')";
     $send2 = $conn->query($member);
+    if($send2 === TRUE) {
+        $new_id = $conn->insert_id;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -50,9 +53,14 @@
         <div class="shape1"></div>
         
         <section class="admin-text">
-            <h1 class="regist">THANK YOU <?php echo $lname.' '.$fname ?> FOR REGISTER</h1>
+        <?php  
+            $sqlname = "SELECT firstname, lastname FROM members WHERE id = $new_id";
+            $namequery = $conn->query($sqlname);
+            $fecthname = $namequery->fetch_assoc();
+        ?>
+            <h1 class="regist">THANK YOU <?php echo $fecthname['firstname'].' '.$fecthname['lastname']; ?> FOR REGISTER</h1>
             <p style="font-weight: lighter; font-size: 20px; text-align: left; width:700px;">Please check your email withing 5 - 10 minutes to receive an email from us.
-                If you have any problem please email us on MBS@email.com<br><a href="user-login.html">Login</a></p>
+                If you have any problem please email us on jomterapi@email.com<br><a href="user-login.html">Login</a></p>
         </section>
         
 
